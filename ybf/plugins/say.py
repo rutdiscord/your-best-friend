@@ -10,7 +10,9 @@ async def command(client, message, command):
         return await message.channel.send(
             embed=client.embed_builder(
                 'error',
-                'Nothing to say provided.'))
+                'Nothing to say provided.'
+            )
+        )
 
     channel = message.channel
 
@@ -18,9 +20,7 @@ async def command(client, message, command):
     chreg = match(r'\<\#([0-9]+?)\>', context[1])
 
     if chreg:
-        print(chreg.group(1))
-        channel = message.guild.get_channel(chreg.group(1))
-        print(channel.id)
+        channel = message.guild.get_channel(int(chreg.group(1)))
         content = context[2]
     else: # Basic repeat
         content = command.split(None, 1)[1]
