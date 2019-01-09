@@ -1,0 +1,12 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+
+# Files saved by YBF
+ybf/configs/*
+
+# Private data
+ybf/utilities/police.py
+
+# old data i dont want to delete because im a baby
+yourbestfriend.py
