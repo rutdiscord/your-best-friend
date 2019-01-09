@@ -14,7 +14,7 @@ folder = 'http://i.imgur.com/DRoOvgp.png'
 
 async def ready(client):
     try:
-        with open('./your-best-friend/configs/drive.json') as data:
+        with open('./ybf/configs/drive.json') as data:
             globals()['drive'] = json.load(data)
 
     except FileNotFoundError:
@@ -83,7 +83,7 @@ async def command(client, message, command):
 
 # async def close(client):
 #     if export:
-#         with open('./your-best-friend/configs/drive.json', 'w') as data:
+#         with open('./ybf/configs/drive.json', 'w') as data:
 #             json.dump(drive, data)
 
 aliases = [

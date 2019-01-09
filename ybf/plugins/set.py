@@ -234,7 +234,7 @@ async def close(client):
                 item,
                 getattr(settings, item)
             )
-        with open('./your-best-friend/configs/settings.py', 'w') as config:
+        with open('./ybf/configs/settings.py', 'w') as config:
             config.write(x)
 
 aliases = ['set']
