@@ -137,7 +137,7 @@ async def command(client, message, command):
             # lists are almost always the bottom-most item in our stack so we
             # don't need to "crawl up" anymore once we hit one
             try:
-                if isinstance(thing_to_check[0], list):
+                if len(thing_to_check) > 0 and isinstance(thing_to_check[0], list):
                     # the only exception: role_ids are lists of two items because
                     # it lets me do a lazier check on boot
                     # This could probably be more modular but fuck it
@@ -171,9 +171,11 @@ async def command(client, message, command):
                             f'`{name_of_thing_to_check}` requires a two-object list.'
                         )
 
-                # try to cast input to whatever the list expects
-                # this probably won't break
-                context[0] = type(thing_to_check[0])(context[0])
+                if len(thing_to_check) > 0:
+                    # try to cast input to whatever the list expects
+                    # this probably won't break
+                    context[1] = type(thing_to_check[0])(context[1])
+
                 if context[0] in plus:
                     thing_to_check.append(context[1])
                     export_it()
