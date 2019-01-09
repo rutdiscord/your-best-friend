@@ -54,7 +54,8 @@ async def command(client, message, command):
                 )
             )
 
-    settings.purge['ignored_channels'].remove(message.channel.id)
+    if message_deleted:
+        settings.purge['ignored_channels'].remove(message.channel.id)
 
     context = command.split(None, 1)
     if len(context) < 2:
