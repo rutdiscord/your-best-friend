@@ -106,13 +106,13 @@ class Client(discord.Client):
 
         await self.check_for_mentions(message)
 
-    async def on_member_ban(self, member):
-        settings.purge['ignored_users'].append(member.id)
+    async def on_member_ban(self, guild, user):
+        settings.purge['ignored_users'].append(user.id)
         # Presumably, we don't have to ever stop ignoring a banned user because
         # they'll never come back, but also-presumably keeping the list small
         # will also keep memory free.
         await asyncio.sleep(5)
-        settings.purge['ignored_users'].remove(member.id)
+        settings.purge['ignored_users'].remove(user.id)
 
     async def on_message_delete(self, message):
         now = datetime.utcnow()
@@ -121,6 +121,7 @@ class Client(discord.Client):
           isinstance(message.channel, discord.abc.PrivateChannel) or # ignore deletes in dms
           message.author.bot or # ignore bots
           message.channel.id in settings.purge['ignored_channels'] or # ignore channels being purged
+          message.author.id in settings.purge['ignored_users'] or # ignore members being banned
           message.content.lower().startswith(tuple(settings.purge['exceptions'])) # ignore exceptions
         ):
             return
