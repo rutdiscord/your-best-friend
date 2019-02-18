@@ -59,6 +59,16 @@ class Client(discord.Client):
             await channel.send(
                 f'**Mention Alert** in <#{message.channel.id}>.')
 
+    async def check_for_banned_messages(self, message):
+        '''
+        checks to see if a given message contains banned strings
+        '''
+        if (
+            'www.latlmes.com/' in message.content or
+            'd-BCRCuXR6U' in message.content
+          ):
+          await message.delete()
+
     #### EVENTS ####
 
     async def on_message(self, message):
@@ -96,6 +106,7 @@ class Client(discord.Client):
                 invocation = invoker
         if not invocation:
             await self.check_for_mentions(message)
+            await self.check_for_banned_messages(message)
             return # don't continue to check for a command
 
         command = message.content[len(invocation):].split()[0].lower()
@@ -105,6 +116,7 @@ class Client(discord.Client):
             return await commands.list[command](self, message, message.content[len(invocation):])
 
         await self.check_for_mentions(message)
+        await self.check_for_banned_messages(message)
 
     async def on_member_ban(self, guild, user):
         settings.purge['ignored_users'].append(user.id)
