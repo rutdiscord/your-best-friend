@@ -67,7 +67,7 @@ class Client(discord.Client):
             'www.latlmes.com/' in message.content or
             'd-BCRCuXR6U' in message.content
           ):
-          await message.delete()
+          return True
 
     #### EVENTS ####
 
@@ -106,7 +106,9 @@ class Client(discord.Client):
                 invocation = invoker
         if not invocation:
             await self.check_for_mentions(message)
-            await self.check_for_banned_messages(message)
+            banned_msg = await self.check_for_banned_messages(message)
+            if(banned_msg):
+                await message.delete()
             return # don't continue to check for a command
 
         command = message.content[len(invocation):].split()[0].lower()
@@ -116,7 +118,9 @@ class Client(discord.Client):
             return await commands.list[command](self, message, message.content[len(invocation):])
 
         await self.check_for_mentions(message)
-        await self.check_for_banned_messages(message)
+        banned_msg = await self.check_for_banned_messages(message)
+        if(banned_msg):
+            await message.delete()
 
     async def on_member_ban(self, guild, user):
         settings.purge['ignored_users'].append(user.id)
@@ -129,12 +133,15 @@ class Client(discord.Client):
     async def on_message_delete(self, message):
         now = datetime.utcnow()
 
+        banned_msg = await self.check_for_banned_messages(message)
+
         if (
           isinstance(message.channel, discord.abc.PrivateChannel) or # ignore deletes in dms
           message.author.bot or # ignore bots
           message.channel.id in settings.purge['ignored_channels'] or # ignore channels being purged
           message.author.id in settings.purge['ignored_users'] or # ignore members being banned
-          message.content.lower().startswith(tuple(settings.purge['exceptions'])) # ignore exceptions
+          message.content.lower().startswith(tuple(settings.purge['exceptions'])) or # ignore exceptions
+          banned_msg # message has banned content
         ):
             return
 
