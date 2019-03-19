@@ -74,16 +74,13 @@ class Client(discord.Client):
     async def on_message(self, message):
         if (
           message.author.id == self.user.id or # ignore myself
-          not message.content or # empty message or attachment
           message.author.bot # ignore bots
         ):
             return
 
         if not isinstance(message.channel, discord.abc.PrivateChannel) and ( # message is in a server
           'stored_roles' not in dir(self) or # not ready yet
-          'rolebanned' not in self.stored_roles[message.guild.id] or # not ready yet
-          'roles' not in dir(message.author) or # user not cached yet
-          self.stored_roles[message.guild.id]['rolebanned'] in message.author.roles # ignore rolebanned users
+          'rolebanned' not in self.stored_roles[message.guild.id] # not ready yet
         ):
             return
 
@@ -95,6 +92,19 @@ class Client(discord.Client):
             return await channel.send(
                 '__***IMPORTANT***__\n'\
                 f'*New post in <#{message.channel.id}>!!!*')
+
+        if not message.content: # empty message or attachment
+            return
+
+        if (
+            'roles' not in dir(message.author) or # user not cached yet
+            self.stored_roles[message.guild.id]['rolebanned'] in message.author.roles # ignore rolebanned users
+        ):
+            await self.check_for_mentions(message)
+            banned_msg = await self.check_for_banned_messages(message)
+            if(banned_msg):
+                await message.delete()
+            return
 
         # detect invocation
         invocation = None
