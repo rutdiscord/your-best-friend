@@ -248,11 +248,13 @@ class Client(discord.Client):
         # it should be. We check it first in case the cause of the error wasn't a
         # message.
         if args and isinstance(args[0], discord.Message):
-            await args[0].channel.send(
-                embed=self.embed_builder('error', sys.exc_info()[0].__name__))
-
             await self.app_info.owner.send(
                 f'{args[0].jump_url}\n\n{traceback.format_exc()}')
+
+            if isinstance(sys.exc_info()[0], discord.Forbidden):
+                return # don't announce missing permissions
+            await args[0].channel.send(
+                embed=self.embed_builder('error', sys.exc_info()[0].__name__))
         else:
             raise
 
