@@ -110,7 +110,7 @@ valid_commands = {
 # I'll finish this when i want to sift through differentiating between
 # custom emoji and regular ones
 
-async def delete_from(context, data):
+async def delete_from(client, context, data):
     # can't delete messages in private channels
     if isinstance(data['channel'], discord.abc.PrivateChannel):
         return await context.channel.send(
@@ -282,7 +282,7 @@ async def command(client, message, command):
     context = shlex.split(command)
 
     if len(context) == 1: # just purge
-        return await delete_from(message, data)
+        return await delete_from(client, message, data)
 
     context.pop(0) # remove "nuke"
 
@@ -346,7 +346,7 @@ async def command(client, message, command):
                 )
             )
 
-    purged = await delete_from(message, data)
+    purged = await delete_from(client, message, data)
 
 aliases = [
     'nuke',
