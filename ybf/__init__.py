@@ -82,6 +82,7 @@ class Client(discord.Client):
         if not isinstance(message.channel, discord.abc.PrivateChannel) and ( # message is in a server
           'stored_roles' not in dir(self) or # not ready yet
           'rolebanned' not in self.stored_roles[message.guild.id] or # not ready yet
+          'roles' not in dir(message.author) or # user not cached yet
           self.stored_roles[message.guild.id]['rolebanned'] in message.author.roles # ignore rolebanned users
         ):
             return
