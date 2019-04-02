@@ -1,7 +1,7 @@
 from random import choice
 
 async def command(client, message, command):
-    if message.author.id == settings['self']['owner_id']:
+    if message.author.id == settings.self['owner_id']:
         await message.channel.send(
             embed=client.embed_builder(
                 'error',

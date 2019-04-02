@@ -60,7 +60,7 @@ async def command(client, message, command):
 
     # help set
     if context[1].startswith('set '): # I'm making fucking lazy code and nobody can stop
-        # if message.author.id != self.get_user(settings['self']['owner_id']):
+        # if message.author.id != self.get_user(settings.self['owner_id']):
         if client.stored_roles[message.guild.id]['staff'] not in message.author.roles:
             return await message.channel.send(
                 embed=client.embed_builder(

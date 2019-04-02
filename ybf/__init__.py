@@ -257,7 +257,7 @@ class Client(discord.Client):
         # it should be. We check it first in case the cause of the error wasn't a
         # message.
         if args and isinstance(args[0], discord.Message):
-            await self.get_user(settings['self']['owner_id']).send(
+            await self.get_user(settings.self['owner_id']).send(
                 f'{args[0].jump_url}\n\n{traceback.format_exc()}')
 
             if isinstance(sys.exc_info()[0], discord.Forbidden):
