@@ -1,7 +1,9 @@
 import inspect
 
+from ..configs import settings
+
 async def command(client, message, command):
-    if message.author.id != client.app_info.owner.id:
+    if message.author.id != settings['self']['owner_id']:
         return await message.channel.send(
             embed=client.embed_builder(
                 'error',

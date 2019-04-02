@@ -29,8 +29,6 @@ class Client(discord.Client):
         super().__init__()
 
     async def on_ready(self):
-        self.app_info = await self.application_info()
-
         # cache ids to usable roles
         for guild in settings.guild:
             if guild in [guild.id for guild in self.guilds]:
@@ -259,7 +257,7 @@ class Client(discord.Client):
         # it should be. We check it first in case the cause of the error wasn't a
         # message.
         if args and isinstance(args[0], discord.Message):
-            await self.app_info.owner.send(
+            await self.get_user(settings['self']['owner_id']).send(
                 f'{args[0].jump_url}\n\n{traceback.format_exc()}')
 
             if isinstance(sys.exc_info()[0], discord.Forbidden):
