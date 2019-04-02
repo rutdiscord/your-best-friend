@@ -222,7 +222,7 @@ class Client(discord.Client):
             return
 
         channel = self.get_channel(channel_id)
-        message = await channel.get_message(int(payload.message_id))
+        message = await channel.fetch_message(int(payload.message_id))
 
         if message.id in settings.pin_channels[channel_id]:
             return
@@ -233,13 +233,13 @@ class Client(discord.Client):
         # actually unpinning an already unpinned message shouldn't raise any
         # errors but I'm not taking any chances
         for pin in settings.pin_channels[channel_id]:
-            message = await channel.get_message(pin)
+            message = await channel.fetch_message(pin)
             await message.unpin()
 
         await asyncio.sleep(0.1)
 
         for pin in settings.pin_channels[channel_id]:
-            message = await channel.get_message(pin)
+            message = await channel.fetch_message(pin)
             await message.pin()
 
     async def on_raw_reaction_add(self, payload):
