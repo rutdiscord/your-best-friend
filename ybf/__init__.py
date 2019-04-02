@@ -78,6 +78,7 @@ class Client(discord.Client):
 
         if not isinstance(message.channel, discord.abc.PrivateChannel) and ( # message is in a server
           'stored_roles' not in dir(self) or # not ready yet
+          message.guild.id not in self.stored_roles or # not ready yet
           'rolebanned' not in self.stored_roles[message.guild.id] # not ready yet
         ):
             return
