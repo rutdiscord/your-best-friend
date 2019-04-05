@@ -7,7 +7,7 @@ purge = {
     'exceptions': [],
     'ignored_users': []
 }
-
+owner_id = 191872034706292737 #Replace with your User ID
 guild = {  # Presently all servers YBF will operate in MUST be hardcoded.
     120330239996854274: #Server ID
     {'name': 'rundertale', 'channels': { #Internal name for server, special channel list
