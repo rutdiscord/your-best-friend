@@ -96,6 +96,7 @@ class Client(discord.Client):
             return
 
         if (
+            isinstance(message.channel, discord.abc.PrivateChannel) or # ignore most things in dms
             'roles' not in dir(message.author) or # user not cached yet
             self.stored_roles[message.guild.id]['rolebanned'] in message.author.roles # ignore rolebanned users
         ):
@@ -114,7 +115,7 @@ class Client(discord.Client):
               message.content.lower() != invoker # don't fire if ONLY the invocation is typed
               ):
                 invocation = invoker
-        if not invocation:
+        if not invocation and not isinstance(message.channel, discord.abc.PrivateChannel):
             await self.check_for_mentions(message)
             banned_msg = await self.check_for_banned_messages(message)
             if(banned_msg):
@@ -127,6 +128,7 @@ class Client(discord.Client):
         if command in commands.list:
             return await commands.list[command](self, message, message.content[len(invocation):])
 
+        if isinstance(message.channel, discord.abc.PrivateChannel): return
         await self.check_for_mentions(message)
         banned_msg = await self.check_for_banned_messages(message)
         if(banned_msg):
