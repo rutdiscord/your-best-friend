@@ -1,5 +1,7 @@
 from random import choice
 
+from ybf.configs import settings
+
 async def command(client, message, command):
     if message.author.id == settings.self['owner_id']:
         await message.channel.send(
