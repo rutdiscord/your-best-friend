@@ -71,40 +71,50 @@ class Client(discord.Client):
 
     async def on_message(self, message):
         if (
-          message.author.id == self.user.id or # ignore myself
-          message.author.bot # ignore bots
+                message.author.id == self.user.id or # ignore myself
+                message.author.bot # ignore bots
         ):
             return
 
-        if not isinstance(message.channel, discord.abc.PrivateChannel) and ( # message is in a server
-          'stored_roles' not in dir(self) or # not ready yet
-          message.guild.id not in self.stored_roles or # not ready yet
-          'rolebanned' not in self.stored_roles[message.guild.id] # not ready yet
-        ):
-            return
+        # did this message come from a DM?
+        direct_message = isinstance(message.channel, discord.abc.PrivateChannel)
 
-        # announce mttnews
-        if message.channel.id in settings.announcement_channels:
-            channel = message.guild.get_channel(
-                settings.guild[message.guild.id]['channels']['announcement'])
+        if not direct_message:
+            # special checks for guilds
+            if (
+                    # role directory not cached
+                    'stored_roles' not in dir(self) or
+                    # this guild not cached
+                    message.guild.id not in self.stored_roles or
+                    # roleban role not cached
+                    'rolebanned' not in self.stored_roles[message.guild.id]
+            ):
+                return
 
-            return await channel.send(
-                '__***IMPORTANT***__\n'\
-                f'*New post in <#{message.channel.id}>!!!*')
+            # announce mttnews
+            if message.channel.id in settings.announcement_channels:
+                channel = message.guild.get_channel(
+                    settings.guild[message.guild.id]['channels']['announcement'])
+
+                return await channel.send(
+                    '__***IMPORTANT***__\n'\
+                    f'*New post in <#{message.channel.id}>!!!*')
 
         if not message.content: # empty message or attachment
             return
 
-        if (
-            isinstance(message.channel, discord.abc.PrivateChannel) or # ignore most things in dms
-            'roles' not in dir(message.author) or # user not cached yet
-            self.stored_roles[message.guild.id]['rolebanned'] in message.author.roles # ignore rolebanned users
+        if not direct_message and (
+                'roles' not in dir(message.author) or # user not cached yet
+                self.stored_roles[
+                    message.guild.id
+                ]['rolebanned'] in message.author.roles # ignore rolebanned users
         ):
             await self.check_for_mentions(message)
             banned_msg = await self.check_for_banned_messages(message)
             if(banned_msg):
                 await message.delete()
             return
+            # TODO: This exact code shows up thrice. Maybe squish it all into one func?
 
         # detect invocation
         invocation = None
@@ -115,7 +125,8 @@ class Client(discord.Client):
               message.content.lower() != invoker # don't fire if ONLY the invocation is typed
               ):
                 invocation = invoker
-        if not invocation and not isinstance(message.channel, discord.abc.PrivateChannel):
+
+        if not invocation and not direct_message: # not a command, message in this server
             await self.check_for_mentions(message)
             banned_msg = await self.check_for_banned_messages(message)
             if(banned_msg):
@@ -128,7 +139,9 @@ class Client(discord.Client):
         if command in commands.list:
             return await commands.list[command](self, message, message.content[len(invocation):])
 
-        if isinstance(message.channel, discord.abc.PrivateChannel): return
+        if direct_message:
+            return
+
         await self.check_for_mentions(message)
         banned_msg = await self.check_for_banned_messages(message)
         if(banned_msg):
