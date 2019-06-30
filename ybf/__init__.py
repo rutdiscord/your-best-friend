@@ -126,11 +126,12 @@ class Client(discord.Client):
               ):
                 invocation = invoker
 
-        if not invocation and not direct_message: # not a command, message in this server
-            await self.check_for_mentions(message)
-            banned_msg = await self.check_for_banned_messages(message)
-            if(banned_msg):
-                await message.delete()
+        if not invocation: # not a command
+            if not direct_message: # message in this server
+                await self.check_for_mentions(message)
+                banned_msg = await self.check_for_banned_messages(message)
+                if(banned_msg):
+                    await message.delete()
             return # don't continue to check for a command
 
         command = message.content[len(invocation):].split()[0].lower()
