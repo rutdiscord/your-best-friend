@@ -2,5 +2,5 @@
 while true; do
     python3.6 -m ybf;
     sleep 5;
-	git pull;
+    git pull;
 done;
