@@ -1,0 +1,17 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+    
+        {
+            "name": "YBF",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/.vscode/main.py",
+            "console": "integratedTerminal",
+            "cwd": "${workspaceFolder}",
+            "env": {
+                "VSCODE_RUN": "1"
+            }
+        }
+    ]
+}
