@@ -1,1 +1,1 @@
-python -m ybf
+py -3 -m ybf
