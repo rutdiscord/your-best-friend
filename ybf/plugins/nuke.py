@@ -32,7 +32,7 @@ def membercheck(client, message, context, data):
         )
 
     # add that member to the list
-    data['member'].append(member)
+    data['members'].append(member)
 
     # delete "member <whatever>" from the context list
     del context[:2]
@@ -291,7 +291,7 @@ async def command(client, message, command):
             context[0] not in valid_commands and # not a command
             re.match(r'[0-9]*',context[0]).group(0) != context[0] # not a number
         ):
-            return await context.channel.send(
+            return await message.channel.send(
                 embed=client.embed_builder(
                     'error',
                     f'Unknown option: {context[0]}')
