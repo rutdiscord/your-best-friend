@@ -14,7 +14,11 @@ purge = {
     'ignored_users': [], # User IDs in this list will be ignored by delete police
     # Normally, you do not need to modify those two options, as they are manipulated by YBF when a user is banned to ignore them for delete police.
     # You can, however, include things like your admin bot spam channel.
+    'ignored_content': [], # Provide a list of strings. Any messages with these strings anywhere in them will be ignored by delete police.
+    # This is useful so YBF doesn't repost slurs or scam links, though it does mean you have to keep a list of slurs and scam links.
+    # Sorry.
     'exceptions': ['f!report'] # Provide a list of strings. Any messages beginning with these strings will be ignored by delete police.
+    # This is useful for bot commands that get deleted often or immediately, such as a YouTube search command.
 }
 
 # Options relating to your server(s)

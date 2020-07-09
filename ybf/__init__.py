@@ -61,11 +61,9 @@ class Client(discord.Client):
         '''
         checks to see if a given message contains banned strings
         '''
-        if (
-            'www.latlmes.com/' in message.content or
-            'd-BCRCuXR6U' in message.content
-          ):
-          return True
+        for exception in settings.purge['ignored_content']:
+            if exception in message.content:
+                return True
 
     #### EVENTS ####
 
