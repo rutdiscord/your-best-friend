@@ -11,7 +11,7 @@ docs = {}
 export = False
 
 def addNewCommand(command):
-    docs[command.__name__[command.__name__.rfind('.')+1:]] = {
+    docs[command.aliases[0]] = {
         'aliases' : command.aliases,
         'description_small' : 'N/A',
         'description' : 'No description provided.',
@@ -26,7 +26,7 @@ async def ready(client):
 
         # Add new commands
         for command in commands.iterable:
-            if command.__name__[command.__name__.rfind('.')+1:] not in docs:
+            if command.aliases[0] not in docs:
                 # print(command)
                 addNewCommand(command)
                 globals()["export"] = True
