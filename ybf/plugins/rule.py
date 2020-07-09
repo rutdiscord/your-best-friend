@@ -13,7 +13,7 @@ async def ready(client):
 
     except FileNotFoundError:
         print('Writing new rules file: one wasn\'t found')
-        rules = {
+        globals()['rules'] = {
             'start_at' : 1,
             'simple' : [
                 'Be excellent to each other!',
