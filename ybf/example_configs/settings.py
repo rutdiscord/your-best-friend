@@ -5,8 +5,22 @@ announcement_channels = [000000000000000000]
 # Options relating to the bot itself
 self = {
     'stable': 0000000000000, # Provide the User ID of your bot here (dev options: right-click, copy ID)
+    'beta' : 0000000000000, # Provide an additional ID for the beta version of your bot.
+    # If the client detects that it has signed in with the user ID of the beta version,
+    # it will not do automatic commands as long as the stable bot is online.
+    # If you have no beta bot, leave this at 0 or something and it will be safely ignored.
     'owner_id': 191872034706292737 #Replace with your User ID
 }
+
+# In beta mode, YBF will not:
+# - post delete police messages
+#
+# YBF *will* however still do the following in beta mode:
+# - perform announcements from the announcement channels
+# - delete banned messages
+# - re-pin pins
+# 
+# so it's recommended you keep two configs around, one for beta mode and one for stable mode.
 
 # Delete Police options
 purge = {

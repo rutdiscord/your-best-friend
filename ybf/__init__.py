@@ -26,6 +26,7 @@ class Client(discord.Client):
             'warning' : discord.Color(0xFF8800)
         }
         self.stored_roles = {}
+        self.beta = False
         super().__init__()
 
     async def on_ready(self):
@@ -42,6 +43,10 @@ class Client(discord.Client):
                 await plugin.ready(self)
             except AttributeError:
                 pass
+
+        # are we on the beta branch? if so, ignore the stable bot
+        if self.user.id == settings.self['beta']:
+            self.beta = True
 
         print('[Ready]')
 
@@ -155,6 +160,10 @@ class Client(discord.Client):
         settings.purge['ignored_users'].remove(user.id)
 
     async def on_message_delete(self, message):
+        if self.beta and message.guild.get_member(settings.self['stable']):
+            # is stable me in this server? then no dp
+            return
+        
         now = datetime.utcnow()
 
         banned_msg = await self.check_for_banned_messages(message)
