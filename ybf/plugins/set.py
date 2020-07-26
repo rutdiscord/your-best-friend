@@ -236,7 +236,7 @@ async def close(client):
                 item,
                 getattr(settings, item)
             )
-        with open('./ybf/configs/settings.py', 'w') as config:
+        with open('./ybf/configs/settings.py', 'w', encoding='utf-8') as config:
             config.write(x)
 
 aliases = ['set']

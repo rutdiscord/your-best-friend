@@ -21,7 +21,7 @@ def addNewCommand(command):
 
 async def ready(client):
     try:
-        with open('./ybf/configs/docs.json') as data:
+        with open('./ybf/configs/docs.json', encoding='utf-8') as data:
             globals()['docs'] = json.load(data)
 
         # Add new commands
@@ -146,7 +146,7 @@ async def command(client, message, command):
 async def close(client):
     print(export)
     if export:
-        with open('./ybf/configs/docs.json', 'w') as data:
+        with open('./ybf/configs/docs.json', 'w', encoding='utf-8') as data:
             json.dump(docs, data)
 
 aliases = [

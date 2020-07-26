@@ -5,7 +5,7 @@ print('Starting up...')
 YBF = ybf.Client()
 
 KEY = None
-with open('./ybf/configs/token.key') as keyfile:
+with open('./ybf/configs/token.key', encoding='utf-8') as keyfile:
     KEY = keyfile.read().strip()
 
 YBF.run(KEY)

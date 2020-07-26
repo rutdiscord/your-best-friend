@@ -20,7 +20,7 @@ valid_mojis = (
 
 async def ready(client):
     try:
-        with open('./ybf/configs/reports.json') as data:
+        with open('./ybf/configs/reports.json', encoding='utf-8') as data:
             globals()['reports'] = json.load(data)
 
     except FileNotFoundError:
@@ -244,7 +244,7 @@ async def react(client, payload):
 
 async def close(client):
     if export:
-        with open('./ybf/configs/reports.json', 'w') as data:
+        with open('./ybf/configs/reports.json', 'w', encoding='utf-8') as data:
             json.dump(reports, data)
 
 aliases = [

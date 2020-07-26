@@ -310,7 +310,7 @@ class Client(discord.Client):
 #     YBF = Client()
 #
 #     KEY = None
-#     with open('./configs/token.key') as keyfile:
+#     with open('./configs/token.key', encoding='utf-8') as keyfile:
 #         KEY = keyfile.read().strip()
 #
 #     YBF.run(KEY)

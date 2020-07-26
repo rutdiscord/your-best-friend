@@ -8,7 +8,7 @@ export = False
 
 async def ready(client):
     try:
-        with open('./ybf/configs/rules.json') as data:
+        with open('./ybf/configs/rules.json', encoding='utf-8') as data:
             globals()['rules'] = json.load(data)
 
     except FileNotFoundError:
@@ -170,7 +170,7 @@ async def command(client, message, command):
 
 async def close(client):
     if export:
-        with open('./ybf/configs/rules.json', 'w') as data:
+        with open('./ybf/configs/rules.json', 'w', encoding='utf-8') as data:
             json.dump(rules, data)
 
 aliases = [
