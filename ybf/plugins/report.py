@@ -197,7 +197,7 @@ async def react(client, payload):
         settings.guild[payload.guild_id]['channels']['bot_spam']
     )
 
-    reporter = client.get_guild(payload.guild_id).get_member(reports[str(payload.message_id)])
+    reporter = await client.get_guild(payload.guild_id).fetch_member(reports[str(payload.message_id)])
 
     if not reporter:
         reports.pop(str(payload.message_id) )
