@@ -147,6 +147,7 @@ class Client(discord.Client):
                 if message.guild.id == 120330239996854274 and randint(1,100) == 100:
                     headline = nlp.generate(message.author.display_name, message.clean_content)
                     if headline:
+                        print(f'Sending headline: {headline}')
                         message.guild.get_channel(669077343482019870).send(self.embed_builder(randint(0x000000, 0xFFFFFF), headline, title="BREAKING NEWS!"))
                     
             return # don't continue to check for a command
