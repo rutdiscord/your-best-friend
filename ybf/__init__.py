@@ -144,11 +144,11 @@ class Client(discord.Client):
                 banned_msg = await self.check_for_banned_messages(message)
                 if(banned_msg):
                     await message.delete()
-                if message.guild.id == 120330239996854274 and randint(1,100) == 100:
+                if message.guild.id == 120330239996854274 and randint(1,5) == 1:
                     headline = nlp.generate(message.author.display_name, message.clean_content)
                     if headline:
                         print(f'Sending headline: {headline}')
-                        message.guild.get_channel(669077343482019870).send(self.embed_builder(randint(0x000000, 0xFFFFFF), headline, title="BREAKING NEWS!"))
+                        await message.guild.get_channel(669077343482019870).send(self.embed_builder(randint(0x000000, 0xFFFFFF), headline, title="BREAKING NEWS!"))
                     
             return # don't continue to check for a command
 
