@@ -276,14 +276,23 @@ class Client(discord.Client):
             if 'react' in dir(plugin):
                 await plugin.react(self, payload)
 
-    def embed_builder(self, type, desc, title="Error"):
+    def embed_builder(self, kind, desc, title="Error"):
+        if kind in self.colors:
         return discord.Embed(
-            color=self.colors[type],
+                color=self.colors[kind],
+                title=title,
+                description=desc
+            )
+        else:
+            return discord.Embed(
+                color=kind,
             title=title,
             description=desc
         )
 
     async def on_error(self, event_method, *args, **kwargs):
+        # pylint: disable=misplaced-bare-raise
+        # pylinting this out because this *is* an except statement
         # args[0] is the message that was recieved prior to the error. At least,
         # it should be. We check it first in case the cause of the error wasn't a
         # message.
