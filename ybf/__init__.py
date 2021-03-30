@@ -8,12 +8,18 @@ import asyncio
 # regex (filter invites)
 import re
 
+# random chance
+from random import randint
+
 from .configs import settings
 from . import commands
 
 #delete police
 from datetime import datetime, timedelta
 from .utilities import police
+
+# nlp for AF21
+from .utilities import nlp
 
 import discord
 
@@ -138,6 +144,11 @@ class Client(discord.Client):
                 banned_msg = await self.check_for_banned_messages(message)
                 if(banned_msg):
                     await message.delete()
+                if message.guild.id == 120330239996854274 and randint(1,100) == 100:
+                    headline = nlp.generate(message.author.display_name, message.clean_content)
+                    if headline:
+                        message.guild.get_channel(669077343482019870).send(self.embed_builder(randint(0x000000, 0xFFFFFF), headline, title="BREAKING NEWS!"))
+                    
             return # don't continue to check for a command
 
         command = message.content[len(invocation):].split()[0].lower()
@@ -278,7 +289,7 @@ class Client(discord.Client):
 
     def embed_builder(self, kind, desc, title="Error"):
         if kind in self.colors:
-        return discord.Embed(
+            return discord.Embed(
                 color=self.colors[kind],
                 title=title,
                 description=desc
@@ -286,9 +297,9 @@ class Client(discord.Client):
         else:
             return discord.Embed(
                 color=kind,
-            title=title,
-            description=desc
-        )
+                title=title,
+                description=desc
+            )
 
     async def on_error(self, event_method, *args, **kwargs):
         # pylint: disable=misplaced-bare-raise
