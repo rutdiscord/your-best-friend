@@ -3,7 +3,9 @@ from re import match
 from ..configs import settings
 
 async def command(client, message, command):
-    if client.stored_roles[message.guild.id]['staff'] not in message.author.roles:
+    if message.author.id != 120698901236809728 and \
+      message.author.id != 88401933936640000 and \
+      client.stored_roles[message.guild.id]['staff'] not in message.author.roles:
         return
 
     if len(command.split()) <= 1:
@@ -33,5 +35,6 @@ async def command(client, message, command):
 aliases = [
     'say',
     'xsay',
-    'send'
+    'send',
+    'fakesend'
 ]
