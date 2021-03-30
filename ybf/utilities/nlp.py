@@ -5,9 +5,11 @@ def generate(username, text):
     noun_phr, verb, adj = language_processing.tokenize(text) # Converts input text into tokens.
     print(noun_phr, verb, adj)
 
+    try:
+        randPhrase = random.choice(noun_phr)
+    except IndexError:
+        return False
 
-
-    randPhrase = random.choice(noun_phr)
     print(randPhrase)
 
     un_adj = []
