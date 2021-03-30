@@ -1,4 +1,4 @@
-import language_processing
+from . import language_processing
 import random
 
 def generate(username, text):
