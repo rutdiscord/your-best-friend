@@ -24,7 +24,8 @@ settings_items = {
     'guild',
     'pin_channels',
     'invokers',
-    'purge'
+    'purge',
+    'police'
 }
 
 export = False

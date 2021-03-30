@@ -73,5 +73,9 @@ pin_channels = {
 # re-pinned messages will always be at the top of the pinned messages, making them
 # useful for rules posts and important posts.
 
+# These options are configurable for your Delete Police methods.
+# You're on your own for setting these up, but feel free to ignore these settings if you don't need them.
+police = {'method': 'minmax', 'bot_grace_period': 0}
+
 # Warning: if you use f!set at any time, or any of these options are updated
 # by another YBF command, all of these comments will be deleted.
