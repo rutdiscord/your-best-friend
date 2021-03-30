@@ -47,6 +47,9 @@ class Client(discord.Client):
         # are we on the beta branch? if so, ignore the stable bot
         if self.user.id == settings.self['beta']:
             self.beta = True
+        
+        # cache the owner
+        self.owner = await self.fetch_user(settings.self['owner_id'])
 
         print('[Ready]')
 
@@ -162,6 +165,10 @@ class Client(discord.Client):
     async def on_message_delete(self, message):
         if self.beta and message.guild.get_member(settings.self['stable']):
             # is stable me in this server? then no dp
+            return
+        
+        if message.guild.id == 256926147827335170: # r/oneshot
+            # no DP in oneshot
             return
         
         now = datetime.utcnow()
@@ -281,7 +288,7 @@ class Client(discord.Client):
         # it should be. We check it first in case the cause of the error wasn't a
         # message.
         if args and isinstance(args[0], discord.Message):
-            await self.get_user(settings.self['owner_id']).send(
+            await self.owner.send(
                 f'{args[0].jump_url}\n\n{traceback.format_exc()}')
 
             if isinstance(sys.exc_info()[0], discord.Forbidden):

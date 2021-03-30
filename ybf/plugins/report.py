@@ -82,7 +82,8 @@ async def command(client, message, command):
         if settings.guild[guild]['channels']['report'] != 0:
             this_guild = client.get_guild(guild)
             # make sure I'm in the guild and so are they
-            if this_guild and this_guild.get_member(message.author.id):
+            this_member = await this_guild.fetch_member(message.author.id)
+            if this_guild and this_member:
                 # assume first guild I share with this user is the correct one
                 current_guild = this_guild
                 # pretty sure keys() goes in order so rundertale should be first
