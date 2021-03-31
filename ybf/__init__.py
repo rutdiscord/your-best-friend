@@ -61,7 +61,7 @@ class Client(discord.Client):
         self.owner = await self.fetch_user(settings.self['owner_id'])
 
         self.af21_data = {
-            'newsch' : message.guild.get_channel(669077343482019870),
+            'newsch' : self.get_guild(120330239996854274).get_channel(669077343482019870),
             'timestamp' : datetime.utcnow(),
             'thumbs' : [
                     'https://cdn.discordapp.com/attachments/258370851920019456/826654848602472478/cry-4381422_640.jpg',
