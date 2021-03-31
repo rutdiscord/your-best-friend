@@ -145,7 +145,7 @@ class Client(discord.Client):
                 banned_msg = await self.check_for_banned_messages(message)
                 if(banned_msg):
                     await message.delete()
-                if message.guild.id == 120330239996854274 and randint(1,20) == 1:
+                if message.guild.id == 120330239996854274 and randint(1,10) == 1:
                     headline = nlp.generate(message.author.display_name, message.clean_content)
                     if headline:
                         print(f'Sending headline: {headline}')
@@ -187,13 +187,10 @@ class Client(discord.Client):
                         await newsch.send(
                             embed=self.embed_builder(
                                 randint(0x000000, 0xFFFFFF),
-                                headline,
-                                title="BREAKING NEWS!")
-                                    .set_author(
-                                        name=clickbaitery,
-                                        url="https://discord.com/channels/{message.guild.id}/{message.channel.id}/{message.id}")
-                                        .set_thumbnail(url=thumb)
-                                        )
+                                f'[{clickbaitery}](https://discord.com/channels/{message.guild.id}/{message.channel.id}/{message.id})',
+                                title=headline)
+                                    .set_author(name="BREAKING NEWS")
+                                    .set_thumbnail(url=thumb))
                     
             return # don't continue to check for a command
 
