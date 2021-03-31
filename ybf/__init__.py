@@ -145,7 +145,7 @@ class Client(discord.Client):
                 banned_msg = await self.check_for_banned_messages(message)
                 if(banned_msg):
                     await message.delete()
-                if message.guild.id == 120330239996854274 and randint(1,5) == 1:
+                if message.guild.id == 120330239996854274 and randint(1,20) == 1:
                     headline = nlp.generate(message.author.display_name, message.clean_content)
                     if headline:
                         print(f'Sending headline: {headline}')
@@ -159,13 +159,41 @@ class Client(discord.Client):
                             f'I guess we know why he\'s called {message.author.display_name} now huh?',
                             'Girl, I am shook.',
                             f'I can\'t believe {message.author.display_name} has done this',
-                            'The controversy that is shaking the world!'
+                            'The controversy that is shaking the world!',
+                            'And we couldn\'t be more upset.'
+                        ])
+                        thumb = choice([
+                            'https://cdn.discordapp.com/attachments/258370851920019456/826654848602472478/cry-4381422_640.jpg',
+                            'https://cdn.discordapp.com/attachments/258370851920019456/826654851685154816/baby-408262_640.jpg',
+                            'https://cdn.discordapp.com/attachments/258370851920019456/826654854880559114/call-2946023_640.jpg',
+                            'https://cdn.discordapp.com/attachments/258370851920019456/826654858861346836/cavalier-1444026_640.jpg',
+                            'https://cdn.discordapp.com/attachments/258370851920019456/826654861809418271/hacker-3641937_640.jpg',
+                            'https://cdn.discordapp.com/attachments/258370851920019456/826654864179200030/hacker-2883632_640.jpg',
+                            'https://cdn.discordapp.com/attachments/258370851920019456/826654868075970611/people-2557494_640.jpg',
+                            'https://cdn.discordapp.com/attachments/258370851920019456/826654869242380298/amiga-4321211_640.jpg',
+                            'https://cdn.discordapp.com/attachments/258370851920019456/826654871905632286/iman-1459322_640.jpg',
+                            'https://cdn.discordapp.com/attachments/258370851920019456/826654873336021013/people-315907_640.jpg',
+                            'https://cdn.discordapp.com/attachments/258370851920019456/826654901375205466/coronavirus-5064371_640.jpg',
+                            'https://cdn.discordapp.com/attachments/258370851920019456/826654906928201728/comic-1296117_640.png',
+                            'https://cdn.discordapp.com/attachments/258370851920019456/826654904096391178/fear-1172407_640.jpg',
+                            'https://cdn.discordapp.com/attachments/258370851920019456/826654908274049024/shocked-4625235_640.png',
+                            'https://cdn.discordapp.com/attachments/258370851920019456/826654909351854140/portrayal-89189_640.jpg',
+                            'https://cdn.discordapp.com/attachments/258370851920019456/826654911252660224/scared-2175161_640.jpg',
+                            'https://cdn.discordapp.com/attachments/258370851920019456/826654912560496650/poses-1367416_640.jpg',
+                            'https://cdn.discordapp.com/attachments/258370851920019456/826654914271772753/shocked-2681488_640.jpg',
+                            'https://cdn.discordapp.com/attachments/258370851920019456/826654915598090250/lover-1822498_640.jpg',
+                            'https://cdn.discordapp.com/attachments/258370851920019456/826654917233344523/dog-1951211_640.jpg'
                         ])
                         await newsch.send(
                             embed=self.embed_builder(
                                 randint(0x000000, 0xFFFFFF),
                                 headline,
-                                title="BREAKING NEWS!").set_footer(text=f'[{clickbaitery}](https://discord.com/channels/{message.guild.id}/{message.channel.id}/{message.id})'))
+                                title="BREAKING NEWS!")
+                                    .set_author(
+                                        clickbaitery,
+                                        url="https://discord.com/channels/{message.guild.id}/{message.channel.id}/{message.id}")
+                                        .set_thumbnail(url=thumb)
+                                        )
                     
             return # don't continue to check for a command
 
