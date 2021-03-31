@@ -158,10 +158,14 @@ class Client(discord.Client):
                             'This time, for real. We swear.',
                             f'I guess we know why he\'s called {message.author.display_name} now huh?',
                             'Girl, I am shook.',
-                            f'I can\'t believe {message.author.display_name} has done this',
+                            f'I can\'t believe {message.author.display_name} has done this.',
                             'The controversy that is shaking the world!',
                             'And we couldn\'t be more upset.',
-                            'I\'m shaking and crying.'
+                            'I\'m shaking and crying.',
+                            'Number 3 will shock you.',
+                            'Real! Not clickbait!',
+                            'Certified as "Not Fake News".',
+                            'Great, something else to worry about besides my crippling student debt.'
                         ])
                         thumb = choice([
                             'https://cdn.discordapp.com/attachments/258370851920019456/826654848602472478/cry-4381422_640.jpg',
