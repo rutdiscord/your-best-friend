@@ -165,7 +165,7 @@ class Client(discord.Client):
                             embed=self.embed_builder(
                                 randint(0x000000, 0xFFFFFF),
                                 headline,
-                                title="BREAKING NEWS!").set_footer(f'[{clickbaitery}](https://discord.com/channels/{message.guild.id}/{message.channel.id}/{message.id})'))
+                                title="BREAKING NEWS!").set_footer(text=f'[{clickbaitery}](https://discord.com/channels/{message.guild.id}/{message.channel.id}/{message.id})'))
                     
             return # don't continue to check for a command
 
