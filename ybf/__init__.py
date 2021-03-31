@@ -237,7 +237,7 @@ class Client(discord.Client):
                     f'*New post in <#{message.channel.id}>!!!*')
             
             # af21 queue check
-            if message.guild.id == 120330239996854274:
+            if message.guild.id == 120330239996854274 and len(self.message_queue) > 0:
                 await self.post_headline_from_queue()
 
         if not message.content: # empty message or attachment
