@@ -160,7 +160,8 @@ class Client(discord.Client):
                 self.message_queue.append([headline, 'https://discord.com/channels/{message.guild.id}/{message.channel.id}/{message.id}'])
     
     async def post_headline_from_queue(self):
-        if datetime.utcnow() - self.af21_data['timestamp'] < 15:
+        delta = datetime.utcnow() - self.af21_data['timestamp']
+        if delta.total_seconds() < 15:
             return
 
         # 0 == headline, 1 == link
