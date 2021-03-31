@@ -9,6 +9,7 @@ import asyncio
 import re
 
 # random chance
+from random import choice
 from random import randint
 
 from .configs import settings
