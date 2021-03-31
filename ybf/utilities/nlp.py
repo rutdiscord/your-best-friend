@@ -44,12 +44,12 @@ def headlineGenerator(name, phrase, adjective, verb='', useverb=True):
 
     c_list = ["thinks that", "said that", "stated that", "strongly believes that", "does not believe that", "made it public that they think that", "determined that", "believes that", "did not understand that"]
 
-    c_ = c_list[random.randint(0, len(c_list))]
+    c_ = random.choice(c_list)
 
     hl_list = [
         f"{name} {c_} {phrase.upper()} {v_.upper()} {adjective.upper()}!",
         f"You Won't Believe What {name} Has To Say About {phrase.upper()}!",
-        f"{phrase.upper()}{v_.upper()} {adjective.upper()}? {name.upper()} Thinks So!",
+        f"{phrase.upper()} {v_.upper()} {adjective.upper()}? {name.upper()} Thinks So!",
         f"5 Signs You Might Be Like {name}: Do you think {phrase.upper()} {v_} {adjective.upper()}?",
         f"{name} hates this one weird trick! Learn to {v_} {adjective.upper()} Today!",
         f"Did you know that {name} believes in {phrase.upper()}?",

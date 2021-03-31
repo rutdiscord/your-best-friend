@@ -149,7 +149,23 @@ class Client(discord.Client):
                     if headline:
                         print(f'Sending headline: {headline}')
                         newsch = message.guild.get_channel(669077343482019870)
-                        await newsch.send(embed=self.embed_builder(randint(0x000000, 0xFFFFFF), headline, title="BREAKING NEWS!"))
+                        clickbaitery = choice([
+                            'All we can say is "yaas queen."',
+                            'Is this what finally cancels them?',
+                            'Take that, patriarchy!',
+                            'Literally ruining our childhoods.',
+                            'This time, for real. We swear.',
+                            f'I guess we know why he\'s called {message.author.display_name} now huh?',
+                            'Girl, I am shook.',
+                            f'I can\'t believe {message.author.display_name} has done this',
+                            'The controversy that is shaking the world!'
+                        ])
+                        await newsch.send(
+                            embed=self.embed_builder(
+                                randint(0x000000, 0xFFFFFF),
+                                headline,
+                                title="BREAKING NEWS!").set_footer(
+                                    f'[{clickbaitery}](https://discord.com/channels/{message.guild.id}/{message.channel.id}/{message.id})'))
                     
             return # don't continue to check for a command
 
