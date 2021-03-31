@@ -52,17 +52,17 @@ def headlineGenerator(name, phrase, adjective, verb='', useverb=True):
 
     hl_list = [
         f"{name} {c_} {phrase.upper()} {v_.upper()} {adjective.upper()}!",
-        f"You Won't Believe What {name} Has To Say About {phrase.upper()}!",
+        f"You won't believe what {name} has to say about {phrase.upper()}!",
         f"{phrase.upper()} {v_.upper()} {adjective.upper()}? {name} thinks so!",
-        f"5 Signs You Might Be Like {name}: Do you think {phrase.upper()} {v_} {adjective.upper()}?",
-        f"{name} hates this one weird trick! Learn to {v_} {adjective.upper()} Today!",
+        f"5 Signs you might be like {name}: Do you think {phrase.upper()} {v_} {adjective.upper()}?",
+        f"{name} hates this one weird trick! Learn to {v_} {adjective.upper()} today!",
         f"Did you know that {name} believes in {phrase.upper()}?",
         f"The Verge has rated {name} as {v_.upper()} {phrase.upper()} of the year!",
         f"10 Reasons why {name} believes {v_.upper()} {phrase.upper()}",
-        f"Do you know {name}? Then did you know that {name} {c_.upper()} {v_.upper()}"
-        f"The rumour come out: Does {phrase.upper()} {v_.upper()} {adjective.upper()}? {name} thinks so!"
-        f"Is the last {phrase.upper()} you'll ever need?! r/Undertale User {name} said so!"
-        f"{name}'s list of 10 {phrase.upper()}'s that actually work!"
+        f"Do you know {name}? Then did you know that {name} {c_.upper()} {v_.upper()} {phrase.upper()}",
+        f"The rumour come out: Does {phrase.upper()} {v_.upper()} {adjective.upper()}? {name} thinks so!",
+        f"Is the last {phrase.upper()} you'll ever need?! r/Undertale User {name} said so!",
+        f"{name}'s list of 10 {phrase.upper()}'s that actually work!",
         f"{name}'s opinion: {phrase.upper()} {v_.upper()} {adjective.upper()}. Do you agree?"
     ]
 
