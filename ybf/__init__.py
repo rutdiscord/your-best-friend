@@ -195,7 +195,7 @@ class Client(discord.Client):
         ])
         thumb = choice(self.af21_data['thumbs'])
 
-        await af21_data['newsch'].send(
+        await self.af21_data['newsch'].send(
             embed=self.embed_builder(
                 randint(0x000000, 0xFFFFFF),
                 f'[{clickbaitery}]({headline[1]})',
