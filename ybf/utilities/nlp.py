@@ -4,7 +4,8 @@ import random
 no_good_phrases = [
     'I',
     'IT',
-    'IT\'S'
+    'IT\'S',
+    'ITS'
 ]
 
 def generate(username, text, useverb=True):

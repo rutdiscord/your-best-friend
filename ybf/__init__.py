@@ -178,7 +178,7 @@ class Client(discord.Client):
             'Take that, patriarchy!',
             'Literally ruining our childhoods.',
             'This time, for real. We swear.',
-            f'I guess we know why he\'s called {headline[2]} now huh?',
+            f'I guess we know why they\'re called {headline[2]} now huh?',
             'Girl, I am shook.',
             f'I can\'t believe {headline[2]} has done this.',
             'The controversy that is shaking the world!',
