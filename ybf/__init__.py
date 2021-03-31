@@ -165,8 +165,7 @@ class Client(discord.Client):
                             embed=self.embed_builder(
                                 randint(0x000000, 0xFFFFFF),
                                 headline,
-                                title="BREAKING NEWS!").set_footer(
-                                    f'[{clickbaitery}](https://discord.com/channels/{message.guild.id}/{message.channel.id}/{message.id})'))
+                                title="BREAKING NEWS!").set_footer(f'[{clickbaitery}](https://discord.com/channels/{message.guild.id}/{message.channel.id}/{message.id})'))
                     
             return # don't continue to check for a command
 
@@ -330,10 +329,11 @@ class Client(discord.Client):
             await self.owner.send(
                 f'{args[0].jump_url}\n\n{traceback.format_exc()}')
 
-            if isinstance(sys.exc_info()[0], discord.Forbidden):
-                return # don't announce missing permissions
-            await args[0].channel.send(
-                embed=self.embed_builder('error', sys.exc_info()[0].__name__))
+            # uncomment if you want ybf to post errors in chat
+            # if isinstance(sys.exc_info()[0], discord.Forbidden):
+            #     return # don't announce missing permissions
+            # await args[0].channel.send(
+            #     embed=self.embed_builder('error', sys.exc_info()[0].__name__))
         else:
             raise
 
