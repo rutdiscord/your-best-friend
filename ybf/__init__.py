@@ -157,14 +157,14 @@ class Client(discord.Client):
             headline = nlp.generate(message.author.display_name, message.clean_content)
             if headline:
                 print(f'Generated headline: {headline}')
-                self.message_queue.append([headline, 'https://discord.com/channels/{message.guild.id}/{message.channel.id}/{message.id}'])
+                self.message_queue.append([headline, 'https://discord.com/channels/{message.guild.id}/{message.channel.id}/{message.id}', message.author.display_name])
     
     async def post_headline_from_queue(self):
         delta = datetime.utcnow() - self.af21_data['timestamp']
         if delta.total_seconds() < 15:
             return
 
-        # 0 == headline, 1 == link
+        # 0 == headline, 1 == link, 2 == display name
         headline = self.message_queue.pop(0)
 
         clickbaitery = choice([
@@ -173,9 +173,9 @@ class Client(discord.Client):
             'Take that, patriarchy!',
             'Literally ruining our childhoods.',
             'This time, for real. We swear.',
-            f'I guess we know why he\'s called {message.author.display_name} now huh?',
+            f'I guess we know why he\'s called {headline[2]} now huh?',
             'Girl, I am shook.',
-            f'I can\'t believe {message.author.display_name} has done this.',
+            f'I can\'t believe {headline[2]} has done this.',
             'The controversy that is shaking the world!',
             'And we couldn\'t be more upset.',
             'I\'m shaking and crying.',
