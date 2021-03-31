@@ -154,7 +154,12 @@ class Client(discord.Client):
 
     def generate_news_post(self, message):
         if message.guild.id == 120330239996854274 and randint(1,10) == 1:
+            if '||' in message.content: return
+            if message.channel.id == settings.guild[120330239996854274]['channels']['roleban']: return
+            if message.channel.category_id != settings.guild[120330239996854274]['categories']['staff']: return
+
             headline = nlp.generate(message.author.display_name, message.clean_content)
+            
             if headline:
                 print(f'Generated headline: {headline}')
                 self.message_queue.append([headline, f'https://discord.com/channels/{message.guild.id}/{message.channel.id}/{message.id}', message.author.display_name])

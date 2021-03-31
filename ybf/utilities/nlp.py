@@ -1,9 +1,17 @@
 from . import language_processing
 import random
 
+no_good_phrases = [
+    'I',
+    'IT',
+    'IT\'S'
+]
+
 def generate(username, text, useverb=True):
     noun_phr, verb, adj = language_processing.tokenize(text) # Converts input text into tokens.
     print(noun_phr, verb, adj)
+
+    noun_phr = [phrase for phrase in noun_phr if phrase not in no_good_phrases]
 
     try:
         randPhrase = random.choice(noun_phr)
@@ -28,7 +36,7 @@ def generate(username, text, useverb=True):
     if len(un_adj) == 0:
         return False
     if len(un_verb) == 0:
-        un_verb = ["IS"]
+        un_verb = ["is"]
 
     try:
         rand_un_adj = random.choice(un_adj)
@@ -44,7 +52,7 @@ def headlineGenerator(name, phrase, adjective, verb='', useverb=True):
     if useverb == True:
         v_ = verb
     else:
-        v_ = 'IS'
+        v_ = 'is'
 
     c_list = ["thinks that", "said that", "stated that", "strongly believes that", "does not believe that", "made it public that they think that", "determined that", "believes that", "did not understand that"]
 
