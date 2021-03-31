@@ -190,7 +190,7 @@ class Client(discord.Client):
                                 headline,
                                 title="BREAKING NEWS!")
                                     .set_author(
-                                        clickbaitery,
+                                        name=clickbaitery,
                                         url="https://discord.com/channels/{message.guild.id}/{message.channel.id}/{message.id}")
                                         .set_thumbnail(url=thumb)
                                         )
