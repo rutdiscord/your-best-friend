@@ -157,7 +157,7 @@ class Client(discord.Client):
             headline = nlp.generate(message.author.display_name, message.clean_content)
             if headline:
                 print(f'Generated headline: {headline}')
-                self.message_queue.append([headline, 'https://discord.com/channels/{message.guild.id}/{message.channel.id}/{message.id}', message.author.display_name])
+                self.message_queue.append([headline, f'https://discord.com/channels/{message.guild.id}/{message.channel.id}/{message.id}', message.author.display_name])
     
     async def post_headline_from_queue(self):
         delta = datetime.utcnow() - self.af21_data['timestamp']
