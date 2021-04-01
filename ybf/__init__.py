@@ -161,7 +161,7 @@ class Client(discord.Client):
             
             if headline:
                 # print(f'Generated headline: {headline}')
-                await client.af21_data['newsch'].send(f'Generated from https://discord.com/channels/{message.guild.id}/{message.channel.id}/{message.id}\n\n{headline}')
+                await self.af21_data['newsch'].send(f'Generated from https://discord.com/channels/{message.guild.id}/{message.channel.id}/{message.id}\n\n{headline}')
 
     async def on_message(self, message):
         if (
