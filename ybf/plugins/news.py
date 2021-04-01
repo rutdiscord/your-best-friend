@@ -53,13 +53,23 @@ async def command(client, message, command):
     ])
     thumb = choice(client.af21_data['thumbs'])
 
-    await client.af21_data['newsch'].send(
+    color = randint(0x000000, 0xFFFFFF)
+
+    newmsg = await client.af21_data['newsch'].send(
         embed=client.embed_builder(
-            randint(0x000000, 0xFFFFFF),
+            color,
             f'[{clickbaitery}]({link})',
             title=headline)
                 .set_author(name="BREAKING NEWS")
                 .set_thumbnail(url=thumb))
+    
+    await message.channel.send(
+        embed=client.embed_builder(
+            color,
+            f'[Jump to news post](https://discord.com/channels/{newmsg.guild.id}/{newmsg.channel.id}/{newmsg.id})',
+            title='Sent'
+        )
+    )
 
 aliases = [
     'news'
