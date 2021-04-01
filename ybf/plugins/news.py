@@ -61,6 +61,25 @@ async def command(client, message, command):
                     title='Queue status:'
                 ).set_footer(text='News posts not showing up in #event-planning? "f!news force" them, then do "f!die" to reboot the bot.')
             )
+    
+    queuer = context[1].split(None, 1)
+    if queuer[0] == 'chance':
+        try:
+            client.af21_data['range'] = int(queuer[1])
+            return await message.channel.send(
+                embed=client.embed_builder(
+                    'default',
+                    f'All messages now have a 1 in {queuer[1]} chance of being fed to the news generator.',
+                    title='Rate changed.'
+                )
+            )
+        except ValueError:
+            return await message.channel.send(
+                embed=client.embed_builder(
+                    'error',
+                    'Type a whole number, please.'
+                )
+            )
 
     headline = None
     link = None

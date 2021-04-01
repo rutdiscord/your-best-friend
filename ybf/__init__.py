@@ -63,7 +63,7 @@ class Client(discord.Client):
         self.af21_data = {
             'newsch' : self.get_guild(120330239996854274).get_channel(827034400137936907),
             'postch' : self.get_guild(120330239996854274).get_channel(669077343482019870),
-            'timestamp' : datetime.utcnow(),
+            'range' : 5,
             'thumbs' : [
                     'https://cdn.discordapp.com/attachments/258370851920019456/826654848602472478/cry-4381422_640.jpg',
                     'https://cdn.discordapp.com/attachments/258370851920019456/826654851685154816/baby-408262_640.jpg',
@@ -183,7 +183,7 @@ class Client(discord.Client):
     #### EVENTS ####
 
     def generate_news_post(self, message):
-        if message.guild.id == 120330239996854274 and randint(1,5) == 1:
+        if message.guild.id == 120330239996854274 and randint(1,self.af21_data['range']) == 1:
             if '||' in message.content: return
             if message.channel.id == settings.guild[120330239996854274]['channels']['roleban']: return
             if message.channel.category_id == settings.guild[120330239996854274]['categories']['staff']: return
