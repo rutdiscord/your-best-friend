@@ -56,7 +56,7 @@ async def command(client, message, command):
     ])
     
     if attachment:
-        thumb = attachment.url
+        thumb = attachment
     else:
         thumb = choice(client.af21_data['thumbs'])
 

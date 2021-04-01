@@ -150,7 +150,7 @@ class Client(discord.Client):
                 attachment_msg = ''
                 if 'attachments' in msg:
                     ach = msg['attachment']
-                    attachment_msg = f'\n\nMessage has an attachment: {ach.url}'
+                    attachment_msg = f'\n\nMessage has an attachment: {ach}'
 
                 await self.af21_data['postch'].send(f'Generated from {link}\n\n{headline}\nApprove it with `f!news {len(news)}`{attachment_msg}')
 
@@ -199,7 +199,7 @@ class Client(discord.Client):
                 }
 
                 if message.attachments:
-                    data['attachment'] = message.attachments[0]
+                    data['attachment'] = message.attachments[0].url
 
                 self.af21_data['message_queue'].append(data)
                 # print(f'Generated headline: {headline}')
