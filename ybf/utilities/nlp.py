@@ -71,7 +71,7 @@ def headlineGenerator(name, phrase, adjective, verb='', useverb=True):
         f"{random.choice(news_list)} has rated {name} as the {adjective} {phrase.upper()} of the year!",
         f"10 Reasons why {name} believes {adjective} {v_.upper()} {phrase.upper()}",
         f"The rumour come out: Does {phrase.upper()} {v_.upper()} {adjective.upper()}? {name} thinks so!",
-        f"Is the last {phrase.upper()} you'll ever need?! r/Undertale User {name} thinks so!",
+        f"Is this the last {phrase.upper()} you'll ever need?! r/Undertale User {name} thinks so!",
         f"{name}'s list of 10 {phrase.upper()}'s that actually work!",
         f"{name}'s opinion: {phrase.upper()} {v_.upper()} {adjective.upper()}. Do you agree?",
         f"/r/Undertale Exclusive: {name} was once spotted in {random.randint(2000, 2020)} rambling about {phrase.upper()}",
