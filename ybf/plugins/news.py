@@ -59,7 +59,7 @@ async def command(client, message, command):
                     'default',
                     f'There are {queuestat} messages in the queue.{reminder}',
                     title='Queue status:'
-                ).set_footer('News posts not showing up in #event-planning? "f!news force" them, then do "f!die" to reboot the bot.')
+                ).set_footer(text='News posts not showing up in #event-planning? "f!news force" them, then do "f!die" to reboot the bot.')
             )
 
     headline = None
