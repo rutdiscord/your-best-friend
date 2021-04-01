@@ -92,7 +92,7 @@ async def command(client, message, command):
         link = news[context[1]]['link']
         name = news[context[1]]['user']
         if 'attachment' in news[context[1]]:
-            attachment = news[context1]['attachment']
+            attachment = news[context[1]]['attachment']
 
     clickbaitery = choice([
         'All we can say is "yaas queen."',
