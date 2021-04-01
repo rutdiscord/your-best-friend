@@ -79,7 +79,7 @@ def headlineGenerator(name, phrase, adjective, verb='', useverb=True):
         f"Newhome in chaos! {phrase.upper()} is {adjective.upper()} says {name}!",
         f"Before you buy {phrase.upper()}, read what {name} said about it!",
         f"TESTED: Is {phrase.upper()} really {adjective.upper()}? An analysis by {name}",
-        f"{name}'s favourite: {phrase.upper()}.",
+        f"{name}'s favourite: {phrase.upper()}. \'It's {adjective}!\'",
         f"Are you a {adjective} {phrase.upper()}? Take {name}'s quiz today to find out!",
         f"Dentists hate them! Learn {name}'s one simple trick to become an {adjective} at using {phrase.upper()}",
         f"A day to remember! {name} has revealed that they think {phrase} is {adjective}!"
