@@ -170,7 +170,7 @@ class Client(discord.Client):
                    pass
 
                 # print(f'Generated headline: {headline}')
-                await self.af21_data['postch'].send(f'Generated from https://discord.com/channels/{message.guild.id}/{message.channel.id}/{message.id}\n\n{headline}\nApprove it with `f!news {len(news)}')
+                await self.af21_data['postch'].send(f'Generated from https://discord.com/channels/{message.guild.id}/{message.channel.id}/{message.id}\n\n{headline}\nApprove it with `f!news {len(news)}`')
 
                 news[str(len(news))] = {
                     "user" : message.author.display_name,
@@ -178,7 +178,7 @@ class Client(discord.Client):
                     "link" : "https://discord.com/channels/{message.guild.id}/{message.channel.id}/{message.id}"
                 }
 
-                with open('./ybf/configs/news.json', encoding='utf-8') as data:
+                with open('./ybf/configs/news.json', 'w', encoding='utf-8') as data:
                     json.dump(news, data)
 
     async def on_message(self, message):
