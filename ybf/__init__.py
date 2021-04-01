@@ -21,6 +21,7 @@ from .utilities import police
 
 # nlp for AF21
 from .utilities import nlp
+import json
 
 import discord
 

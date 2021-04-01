@@ -1,6 +1,8 @@
 from random import choice
 from random import randint
 
+import json
+
 async def command(client, message, command):
     if len(command.split()) <= 1:
         return await message.channel.send(
