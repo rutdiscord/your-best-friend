@@ -161,8 +161,25 @@ class Client(discord.Client):
             headline = nlp.generate(message.author.display_name, message.clean_content)
             
             if headline:
+                news = {}
+                try:
+                    with open('./ybf/configs/news.json', encoding='utf-8') as data:
+                        news = json.load(data)
+
+                except FileNotFoundError:
+                   pass
+
                 # print(f'Generated headline: {headline}')
-                await self.af21_data['postch'].send(f'Generated from https://discord.com/channels/{message.guild.id}/{message.channel.id}/{message.id}\n\n{headline}')
+                await self.af21_data['postch'].send(f'Generated from https://discord.com/channels/{message.guild.id}/{message.channel.id}/{message.id}\n\n{headline}\nApprove it with `f!news {len(news)}')
+
+                news[str(len(news))] = {
+                    "user" : message.author.display_name,
+                    "headline" : headline,
+                    "link" : "https://discord.com/channels/{message.guild.id}/{message.channel.id}/{message.id}"
+                }
+
+                with open('./ybf/configs/news.json', encoding='utf-8') as data:
+                    json.dump(news, data)
 
     async def on_message(self, message):
         if (
