@@ -17,12 +17,15 @@ async def command(client, message, command):
     headline = None
     link = None
     name = None
+    attachment = None
 
     with open('./ybf/configs/news.json', encoding='utf-8') as data:
         news = json.load(data)
         headline = news[context[1]]['headline']
         link = news[context[1]]['link']
         name = news[context[1]]['user']
+        if 'attachment' in news[context[1]]:
+            attachment = news[context1]['attachment']
 
     clickbaitery = choice([
         'All we can say is "yaas queen."',
@@ -51,7 +54,11 @@ async def command(client, message, command):
         'Finally, something to restore your faith in humanity. *Again.*',
         f'With a name like {name} it was only a matter of time.'
     ])
-    thumb = choice(client.af21_data['thumbs'])
+    
+    if attachment:
+        thumb = attachment.url
+    else:
+        thumb = choice(client.af21_data['thumbs'])
 
     color = randint(0x000000, 0xFFFFFF)
 

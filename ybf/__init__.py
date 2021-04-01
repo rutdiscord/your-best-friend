@@ -164,11 +164,16 @@ class Client(discord.Client):
             headline = nlp.generate(message.author.display_name, message.clean_content)
             
             if headline:
-                self.af21_data['message_queue'].append({
+                data = {
                     "user" : message.author.display_name,
                     "headline" : headline,
                     "link" : f"https://discord.com/channels/{message.guild.id}/{message.channel.id}/{message.id}"
-                })
+                }
+
+                if message.attachments:
+                    data['attachment'] = message.attachments[0]
+
+                self.af21_data['message_queue'].append(data)
                 # print(f'Generated headline: {headline}')
 
     async def on_message(self, message):
@@ -216,8 +221,12 @@ class Client(discord.Client):
 
                 headline = msg['headline']
                 link = msg['link']
+                attachment_msg = ''
+                if 'attachments' in msg:
+                    ach = msg['attachment']
+                    attachment_msg = f'\n\nMessage has an attachment: {ach.url}'
 
-                await self.af21_data['postch'].send(f'Generated from {link}\n\n{headline}\nApprove it with `f!news {len(news)}`')
+                await self.af21_data['postch'].send(f'Generated from {link}\n\n{headline}\nApprove it with `f!news {len(news)}`{attachment_msg}')
 
                 news[str(len(news))] = msg
 
