@@ -167,7 +167,7 @@ class Client(discord.Client):
                 self.af21_data['message_queue'].append({
                     "user" : message.author.display_name,
                     "headline" : headline,
-                    "link" : "https://discord.com/channels/{message.guild.id}/{message.channel.id}/{message.id}"
+                    "link" : f"https://discord.com/channels/{message.guild.id}/{message.channel.id}/{message.id}"
                 })
                 # print(f'Generated headline: {headline}')
 
