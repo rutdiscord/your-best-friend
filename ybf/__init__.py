@@ -133,6 +133,7 @@ class Client(discord.Client):
         print('[Ready]')
 
         while not client.is_closed():
+            print('debug')
             # af21 queue check
             if len(self.af21_data['message_queue']) > 0:
                 news = {}
