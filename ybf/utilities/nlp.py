@@ -41,7 +41,7 @@ def generate(username, text, useverb=True):
 
     try:
         rand_un_adj = random.choice(un_adj)
-    except Exception:
+    except IndexError:
         return False
         
     rand_un_verb = random.choice(un_verb)
@@ -50,7 +50,7 @@ def generate(username, text, useverb=True):
 
 def headlineGenerator(name, phrase, adjective, verb='', useverb=True):
 
-    if useverb == True:
+    if useverb:
         v_ = verb
     else:
         v_ = 'is'
@@ -59,20 +59,31 @@ def headlineGenerator(name, phrase, adjective, verb='', useverb=True):
 
     c_ = random.choice(c_list)
 
+    news_list = ["The Verge", "The Washington Post", "The BBC", "The Daily Mail", "The New York Times", "Fox News", "CNN", "NBC News", "Channel 4 News", "The /r/Undertale News Network", "MTT News", "Orangestar", "Bliv", "The /r/Undertale Staff Team", "The Sun", "MSNBC News", "The Fake News Network"]
+
     hl_list = [
         f"{name} {c_} {phrase.upper()} {v_.upper()} {adjective.upper()}!",
         f"You won't believe what {name} has to say about {phrase.upper()}!",
         f"{phrase.upper()} {v_.upper()} {adjective.upper()}? {name} thinks so!",
         f"5 Signs you might be like {name}: Do you think {phrase.upper()} {v_} {adjective.upper()}?",
-        f"{name} hates this one weird trick! Learn to {v_} {adjective.upper()} today!",
+        f"{name} hates this one weird trick! Learn to {v_.upper()} {phrase.upper()} today!",
         f"Did you know that {name} believes in {phrase.upper()}?",
-        f"The Verge has rated {name} as {v_.upper()} {phrase.upper()} of the year!",
-        f"10 Reasons why {name} believes {v_.upper()} {phrase.upper()}",
+        f"{random.choice(news_list)} has rated {name} as the {adjective} {phrase.upper()} of the year!",
+        f"10 Reasons why {name} believes {adjective} {v_.upper()} {phrase.upper()}",
         f"Do you know {name}? Then did you know that {name} {c_.upper()} {v_.upper()} {phrase.upper()}",
         f"The rumour come out: Does {phrase.upper()} {v_.upper()} {adjective.upper()}? {name} thinks so!",
-        f"Is the last {phrase.upper()} you'll ever need?! r/Undertale User {name} said so!",
+        f"Is the last {phrase.upper()} you'll ever need?! r/Undertale User {name} thinks so!",
         f"{name}'s list of 10 {phrase.upper()}'s that actually work!",
-        f"{name}'s opinion: {phrase.upper()} {v_.upper()} {adjective.upper()}. Do you agree?"
+        f"{name}'s opinion: {phrase.upper()} {v_.upper()} {adjective.upper()}. Do you agree?",
+        f"/r/Undertale Exclusive: {name} was once spotted in {random.randint(2000, 2020)} rambling about {phrase.upper()}",
+        f"Cancel Culture gone too far! Controversy strikes after {name} said: {adjective.upper()} {v_.upper()} {phrase.upper()}",
+        f"Newhome in chaos! {phrase.upper()} is {adjective.upper()} says {name}!",
+        f"Before you buy {phrase.upper()}, read what {name} said about it!",
+        f"TESTED: Is {phrase.upper()} really {adjective.upper()}? An analysis by {name}",
+        f"{name}'s favourite: {phrase.upper()}.",
+        f"Are you a {adjective} {phrase.upper()}? Take {name}'s quiz today to find out!",
+        f"Dentists hate them! Learn {name}'s one simple trick to become an {adjective} at using {phrase.upper()}",
+        f"A day to remember! {name} has revealed that they think {phrase} is {adjective}!"
     ]
 
     headline = random.choice(hl_list)
