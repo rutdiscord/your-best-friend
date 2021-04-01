@@ -34,7 +34,6 @@ class Client(discord.Client):
         }
         self.stored_roles = {}
         self.beta = False
-        self.message_queue = []
         self.af21_data = {}
         super().__init__()
 
@@ -152,7 +151,7 @@ class Client(discord.Client):
 
     #### EVENTS ####
 
-    def generate_news_post(self, message):
+    async def generate_news_post(self, message):
         if message.guild.id == 120330239996854274 and randint(1,10) == 1:
             if '||' in message.content: return
             if message.channel.id == settings.guild[120330239996854274]['channels']['roleban']: return
@@ -161,54 +160,8 @@ class Client(discord.Client):
             headline = nlp.generate(message.author.display_name, message.clean_content)
             
             if headline:
-                print(f'Generated headline: {headline}')
-                self.message_queue.append([headline, f'https://discord.com/channels/{message.guild.id}/{message.channel.id}/{message.id}', message.author.display_name])
-    
-    async def post_headline_from_queue(self):
-        delta = datetime.utcnow() - self.af21_data['timestamp']
-        if delta.total_seconds() < 15:
-            return
-
-        # 0 == headline, 1 == link, 2 == display name
-        headline = self.message_queue.pop(0)
-
-        clickbaitery = choice([
-            'All we can say is "yaas queen."',
-            'Is this what finally cancels them?',
-            'Take that, patriarchy!',
-            'Literally ruining our childhoods.',
-            'This time, for real. We swear.',
-            f'I guess we know why they\'re called {headline[2]} now huh?',
-            'Girl, I am shook.',
-            f'I can\'t believe {headline[2]} has done this.',
-            'The controversy that is shaking the world!',
-            'And we couldn\'t be more upset.',
-            'I\'m shaking and crying.',
-            'Number 3 will shock you.',
-            'Real! Not clickbait!',
-            'Certified as "Not Fake News".',
-            'Great, something else to worry about besides my crippling student debt.',
-            'Part of our "Feel better about yourself by laughing at the expense of someone else" line of quizzes.',
-            'Here\'s why it\'s so adorable.',
-            'Something to care about while waiting for the next *WandaVision* episode.',
-            'Quite frankly? It\'s about time someone said it.',
-            'We demonstrated the issue with cat photos. (Slideshow - 6 Images)',
-            'It was probably the libertarians\' idea.',
-            'Why I\'m still waiting for an apology and—more importantly—why I\'ll refuse to accept it when he does.',
-            'There goes my faith in humanity. *Again.*',
-            'Finally, something to restore your faith in humanity. *Again.*'
-        ])
-        thumb = choice(self.af21_data['thumbs'])
-
-        await self.af21_data['newsch'].send(
-            embed=self.embed_builder(
-                randint(0x000000, 0xFFFFFF),
-                f'[{clickbaitery}]({headline[1]})',
-                title=headline[0])
-                    .set_author(name="BREAKING NEWS")
-                    .set_thumbnail(url=thumb))
-        
-        self.af21_data['timestamp'] = datetime.utcnow()
+                # print(f'Generated headline: {headline}')
+                await client.af21_data['newsch'].send(f'Generated from https://discord.com/channels/{message.guild.id}/{message.channel.id}/{message.id}\n\n{headline}')
 
     async def on_message(self, message):
         if (
@@ -240,10 +193,6 @@ class Client(discord.Client):
                 return await channel.send(
                     '__***IMPORTANT***__\n'\
                     f'*New post in <#{message.channel.id}>!!!*')
-            
-            # af21 queue check
-            if message.guild.id == 120330239996854274 and len(self.message_queue) > 0:
-                await self.post_headline_from_queue()
 
         if not message.content: # empty message or attachment
             return
@@ -277,7 +226,7 @@ class Client(discord.Client):
                 banned_msg = await self.check_for_banned_messages(message)
                 if(banned_msg):
                     await message.delete()
-                self.generate_news_post(message)
+                await self.generate_news_post(message)
                     
             return # don't continue to check for a command
 
