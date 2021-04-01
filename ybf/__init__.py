@@ -167,7 +167,7 @@ class Client(discord.Client):
                     with open('./ybf/configs/news.json', encoding='utf-8') as data:
                         news = json.load(data)
 
-                except FileNotFoundError:
+                except(FileNotFoundError, json.decoder.JSONDecodeError):
                    pass
 
                 # print(f'Generated headline: {headline}')
