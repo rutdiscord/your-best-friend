@@ -157,7 +157,8 @@ class Client(discord.Client):
         if message.guild.id == 120330239996854274:# and randint(1,5) == 1:
             if '||' in message.content: return
             if message.channel.id == settings.guild[120330239996854274]['channels']['roleban']: return
-            #if message.channel.category_id == settings.guild[120330239996854274]['categories']['staff']: return
+            if message.channel.category_id == settings.guild[120330239996854274]['categories']['staff']: return
+            if message.channel.category_id == 581339984519233536: return
 
             headline = nlp.generate(message.author.display_name, message.clean_content)
             
