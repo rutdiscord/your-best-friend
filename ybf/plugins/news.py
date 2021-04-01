@@ -1,4 +1,5 @@
 from random import choice
+from random import randint
 
 async def command(client, message, command):
     if len(command.split()) <= 1:
