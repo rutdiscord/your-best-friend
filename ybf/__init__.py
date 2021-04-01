@@ -132,6 +132,34 @@ class Client(discord.Client):
 
         print('[Ready]')
 
+        while not client.is_closed():
+            # af21 queue check
+            if len(self.af21_data['message_queue']) > 0:
+                news = {}
+                try:
+                    with open('./ybf/configs/news.json', encoding='utf-8') as data:
+                        news = json.load(data)
+
+                except(FileNotFoundError, json.decoder.JSONDecodeError):
+                   pass
+
+                msg = self.af21_data['message_queue'].pop(0)
+
+                headline = msg['headline']
+                link = msg['link']
+                attachment_msg = ''
+                if 'attachments' in msg:
+                    ach = msg['attachment']
+                    attachment_msg = f'\n\nMessage has an attachment: {ach.url}'
+
+                await self.af21_data['postch'].send(f'Generated from {link}\n\n{headline}\nApprove it with `f!news {len(news)}`{attachment_msg}')
+
+                news[str(len(news))] = msg
+
+                with open('./ybf/configs/news.json', 'w', encoding='utf-8') as data:
+                    json.dump(news, data)
+            await asyncio.sleep(5)
+
     async def check_for_mentions(self, message):
         '''
         checks to see if this user is mentioned in a given message, and then
@@ -206,32 +234,6 @@ class Client(discord.Client):
                 return await channel.send(
                     '__***IMPORTANT***__\n'\
                     f'*New post in <#{message.channel.id}>!!!*')
-            
-            # af21 queue check
-            if message.guild.id == 120330239996854274 and len(self.af21_data['message_queue']) > 0:
-                news = {}
-                try:
-                    with open('./ybf/configs/news.json', encoding='utf-8') as data:
-                        news = json.load(data)
-
-                except(FileNotFoundError, json.decoder.JSONDecodeError):
-                   pass
-
-                msg = self.af21_data['message_queue'].pop(0)
-
-                headline = msg['headline']
-                link = msg['link']
-                attachment_msg = ''
-                if 'attachments' in msg:
-                    ach = msg['attachment']
-                    attachment_msg = f'\n\nMessage has an attachment: {ach.url}'
-
-                await self.af21_data['postch'].send(f'Generated from {link}\n\n{headline}\nApprove it with `f!news {len(news)}`{attachment_msg}')
-
-                news[str(len(news))] = msg
-
-                with open('./ybf/configs/news.json', 'w', encoding='utf-8') as data:
-                    json.dump(news, data)
 
         if not message.content: # empty message or attachment
             return
