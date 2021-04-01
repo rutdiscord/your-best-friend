@@ -14,6 +14,54 @@ async def command(client, message, command):
 
     context = command.split(None, 1)
 
+    if context[1].lower() == 'force':
+        if len(client.af21_data['message_queue']) > 0:
+            news = {}
+            try:
+                with open('./ybf/configs/news.json', encoding='utf-8') as data:
+                    news = json.load(data)
+
+            except(FileNotFoundError, json.decoder.JSONDecodeError):
+                pass
+
+            msg = client.af21_data['message_queue'].pop(0)
+
+            headline = msg['headline']
+            link = msg['link']
+            attachment_msg = ''
+            if 'attachments' in msg:
+                ach = msg['attachment']
+                attachment_msg = f'\n\nMessage has an attachment: {ach}'
+
+            await client.af21_data['postch'].send(f'Generated from {link}\n\n{headline}\nApprove it with `f!news {len(news)}`{attachment_msg}')
+
+            news[str(len(news))] = msg
+
+            with open('./ybf/configs/news.json', 'w', encoding='utf-8') as data:
+                json.dump(news, data)
+
+            return True
+        return await message.channel.send(
+                embed=client.embed_builder(
+                    'error',
+                    'The message queue is empty.',
+                    title='Unable to pop from queue.'
+                )
+            )
+    
+    if context[1].lower() == 'queue':
+        queuestat = len(client.af21_data["message_queue"])
+        reminder = ''
+        if queuestat > 0:
+            reminder = '\n\nForce these messages from the queue with `f!news force`.'
+        return await message.channel.send(
+                embed=client.embed_builder(
+                    'default',
+                    f'There are {queuestat} messages in the queue.{reminder}',
+                    title='Queue status:'
+                ).set_footer('News posts not showing up in #event-planning? "f!news force" them, then do "f!die" to reboot the bot.')
+            )
+
     headline = None
     link = None
     name = None
