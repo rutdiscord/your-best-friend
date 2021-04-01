@@ -3,18 +3,20 @@ from random import choice
 from ybf.configs import settings
 
 async def command(client, message, command):
-    if message.author.id == settings.self['owner_id']:
-        await message.channel.send(
-            embed=client.embed_builder(
-                'error',
-                choice([
-                    'I don\'t die THAT easily!',
-                    'I can help... I can help... Please don\'t kill me...',
-                    'You might *think* I\'m dead...',
-                    '* Retreats into soil *'
-                    ]),
-                title=None))
-        return await client.logout()
+    if message.author.id != settings.self['owner_id']: return
+    if message.guild.id == 120330239996854274 and client.stored_roles[message.guild.id]['staff'] not in message.author.roles: return
+
+    await message.channel.send(
+        embed=client.embed_builder(
+            'error',
+            choice([
+                'I don\'t die THAT easily!',
+                'I can help... I can help... Please don\'t kill me...',
+                'You might *think* I\'m dead...',
+                '* Retreats into soil *'
+                ]),
+            title=None))
+    return await client.logout()
     return await message.channel.send(
         embed=client.embed_builder(
             'error',
