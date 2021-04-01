@@ -126,7 +126,8 @@ class Client(discord.Client):
                     'https://cdn.discordapp.com/attachments/258370851920019456/826665916019769354/common-raven-4174069_640.jpg',
                     'https://cdn.discordapp.com/attachments/258370851920019456/826665922806546432/black-crow-4356185_640.jpg',
                     'https://cdn.discordapp.com/attachments/258370851920019456/826665929903439892/crow-4339682_640.jpg'
-                ]
+                ],
+                "message_queue" : []
         }
 
         print('[Ready]')
@@ -153,7 +154,7 @@ class Client(discord.Client):
 
     #### EVENTS ####
 
-    async def generate_news_post(self, message):
+    def generate_news_post(self, message):
         if message.guild.id == 120330239996854274:# and randint(1,5) == 1:
             if '||' in message.content: return
             if message.channel.id == settings.guild[120330239996854274]['channels']['roleban']: return
@@ -163,25 +164,12 @@ class Client(discord.Client):
             headline = nlp.generate(message.author.display_name, message.clean_content)
             
             if headline:
-                news = {}
-                try:
-                    with open('./ybf/configs/news.json', encoding='utf-8') as data:
-                        news = json.load(data)
-
-                except(FileNotFoundError, json.decoder.JSONDecodeError):
-                   pass
-
-                # print(f'Generated headline: {headline}')
-                await self.af21_data['postch'].send(f'Generated from https://discord.com/channels/{message.guild.id}/{message.channel.id}/{message.id}\n\n{headline}\nApprove it with `f!news {len(news)}`')
-
-                news[str(len(news))] = {
+                self.af21_data['message_queue'].append({
                     "user" : message.author.display_name,
                     "headline" : headline,
                     "link" : "https://discord.com/channels/{message.guild.id}/{message.channel.id}/{message.id}"
-                }
-
-                with open('./ybf/configs/news.json', 'w', encoding='utf-8') as data:
-                    json.dump(news, data)
+                })
+                # print(f'Generated headline: {headline}')
 
     async def on_message(self, message):
         if (
@@ -213,6 +201,23 @@ class Client(discord.Client):
                 return await channel.send(
                     '__***IMPORTANT***__\n'\
                     f'*New post in <#{message.channel.id}>!!!*')
+            
+            # af21 queue check
+            if message.guild.id == 120330239996854274 and len(self.af21_data['message_queue']) > 0:
+                news = {}
+                try:
+                    with open('./ybf/configs/news.json', encoding='utf-8') as data:
+                        news = json.load(data)
+
+                except(FileNotFoundError, json.decoder.JSONDecodeError):
+                   pass
+
+                await self.af21_data['postch'].send(f'Generated from https://discord.com/channels/{message.guild.id}/{message.channel.id}/{message.id}\n\n{headline}\nApprove it with `f!news {len(news)}`')
+
+                news[str(len(news))] =  self.af21_data['message_queue'].pop(0)
+
+                with open('./ybf/configs/news.json', 'w', encoding='utf-8') as data:
+                    json.dump(news, data)
 
         if not message.content: # empty message or attachment
             return
@@ -246,7 +251,7 @@ class Client(discord.Client):
                 banned_msg = await self.check_for_banned_messages(message)
                 if(banned_msg):
                     await message.delete()
-                await self.generate_news_post(message)
+                self.generate_news_post(message)
                     
             return # don't continue to check for a command
 

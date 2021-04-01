@@ -12,7 +12,7 @@ def generate(username, text, useverb=True):
     noun_phr, verb, adj = language_processing.tokenize(text) # Converts input text into tokens.
     print(noun_phr, verb, adj)
 
-    noun_phr = [phrase for phrase in noun_phr if phrase not in no_good_phrases]
+    noun_phr = [phrase for phrase in noun_phr if phrase.upper() not in no_good_phrases]
 
     try:
         randPhrase = random.choice(noun_phr)

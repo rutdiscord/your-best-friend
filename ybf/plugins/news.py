@@ -46,7 +46,7 @@ async def command(client, message, command):
         'Quite frankly? It\'s about time someone said it.',
         'We demonstrated the issue with cat photos. (Slideshow - 6 Images)',
         'It was probably the libertarians\' idea.',
-        'Why I\'m still waiting for an apology and—more importantly—why I\'ll refuse to accept it when he does.',
+        'Why I\'m still waiting for an apology and—more importantly—why I\'ll refuse to accept it when they do.',
         'There goes my faith in humanity. *Again.*',
         'Finally, something to restore your faith in humanity. *Again.*',
         f'With a name like {name} it was only a matter of time.'
