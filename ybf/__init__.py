@@ -212,9 +212,14 @@ class Client(discord.Client):
                 except(FileNotFoundError, json.decoder.JSONDecodeError):
                    pass
 
-                await self.af21_data['postch'].send(f'Generated from https://discord.com/channels/{message.guild.id}/{message.channel.id}/{message.id}\n\n{headline}\nApprove it with `f!news {len(news)}`')
+                msg = self.af21_data['message_queue'].pop(0)
 
-                news[str(len(news))] =  self.af21_data['message_queue'].pop(0)
+                headline = msg['headline']
+                link = msg['link']
+
+                await self.af21_data['postch'].send(f'Generated from {link}\n\n{headline}\nApprove it with `f!news {len(news)}`')
+
+                news[str(len(news))] = msg
 
                 with open('./ybf/configs/news.json', 'w', encoding='utf-8') as data:
                     json.dump(news, data)
