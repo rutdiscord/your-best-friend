@@ -175,12 +175,12 @@ class Client(discord.Client):
                 if attachment:
                     thumb = attachment
                 else:
-                    thumb = choice(client.af21_data['thumbs'])
+                    thumb = choice(self.af21_data['thumbs'])
 
                 color = randint(0x000000, 0xFFFFFF)
 
-                newmsg = await client.af21_data['newsch'].send(
-                    embed=client.embed_builder(
+                newmsg = await self.af21_data['newsch'].send(
+                    embed=self.embed_builder(
                         color,
                         f'[{clickbaitery}]({link})',
                         title=headline)
