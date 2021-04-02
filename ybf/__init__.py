@@ -135,29 +135,81 @@ class Client(discord.Client):
         while not self.is_closed():
             # af21 queue check
             if len(self.af21_data['message_queue']) > 0:
-                news = {}
-                try:
-                    with open('./ybf/configs/news.json', encoding='utf-8') as data:
-                        news = json.load(data)
-
-                except(FileNotFoundError, json.decoder.JSONDecodeError):
-                   pass
-
                 msg = self.af21_data['message_queue'].pop(0)
 
                 headline = msg['headline']
                 link = msg['link']
-                attachment_msg = ''
-                if 'attachments' in msg:
-                    ach = msg['attachment']
-                    attachment_msg = f'\n\nMessage has an attachment: {ach}'
+                name = msg['user']
+                attachment = None
+                if 'attachment' in news[context[1]]:
+                    ttachment = msg['attachment']
+                
+                clickbaitery = choice([
+                    'All we can say is "yaas queen."',
+                    'Is this what finally cancels them?',
+                    'Take that, patriarchy!',
+                    'Literally ruining our childhoods.',
+                    'This time, for real. We swear.',
+                    f'I guess we know why they\'re called {name} now huh?',
+                    'Girl, I am shook.',
+                    f'I can\'t believe {name} has done this.',
+                    'The controversy that is shaking the world!',
+                    'And we couldn\'t be more upset.',
+                    'I\'m shaking and crying.',
+                    'Number 3 will shock you.',
+                    'Real! Not clickbait!',
+                    'Certified as "Not Fake News".',
+                    'Great, something else to worry about besides my crippling student debt.',
+                    'Part of our "Feel better about yourself by laughing at the expense of someone else" line of quizzes.',
+                    'Here\'s why it\'s so adorable.',
+                    'Something to care about while waiting for the next *WandaVision* episode.',
+                    'Quite frankly? It\'s about time someone said it.',
+                    'We demonstrated the issue with cat photos. (Slideshow - 6 Images)',
+                    'It was probably the libertarians\' idea.',
+                    'Why I\'m still waiting for an apology and—more importantly—why I\'ll refuse to accept it when they do.',
+                    'There goes my faith in humanity. *Again.*',
+                    'Finally, something to restore your faith in humanity. *Again.*',
+                    f'With a name like {name} it was only a matter of time.'
+                ])
+                
+                if attachment:
+                    thumb = attachment
+                else:
+                    thumb = choice(client.af21_data['thumbs'])
 
-                await self.af21_data['postch'].send(f'Generated from {link}\n\n{headline}\nApprove it with `f!news {len(news)}`{attachment_msg}')
+                color = randint(0x000000, 0xFFFFFF)
 
-                news[str(len(news))] = msg
+                newmsg = await client.af21_data['newsch'].send(
+                    embed=client.embed_builder(
+                        color,
+                        f'[{clickbaitery}]({link})',
+                        title=headline)
+                            .set_author(name="BREAKING NEWS")
+                            .set_thumbnail(url=thumb))
 
-                with open('./ybf/configs/news.json', 'w', encoding='utf-8') as data:
-                    json.dump(news, data)
+                # news = {}
+                # try:
+                #     with open('./ybf/configs/news.json', encoding='utf-8') as data:
+                #         news = json.load(data)
+
+                # except(FileNotFoundError, json.decoder.JSONDecodeError):
+                #    pass
+
+                # msg = self.af21_data['message_queue'].pop(0)
+
+                # headline = msg['headline']
+                # link = msg['link']
+                # attachment_msg = ''
+                # if 'attachment' in msg:
+                #     ach = msg['attachment']
+                #     attachment_msg = f'\n\nMessage has an attachment: {ach}'
+
+                # await self.af21_data['postch'].send(f'Generated from {link}\n\n{headline}\nApprove it with `f!news {len(news)}`{attachment_msg}')
+
+                # news[str(len(news))] = msg
+
+                # with open('./ybf/configs/news.json', 'w', encoding='utf-8') as data:
+                #     json.dump(news, data)
             await asyncio.sleep(5)
 
     async def check_for_mentions(self, message):
