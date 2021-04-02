@@ -141,8 +141,8 @@ class Client(discord.Client):
                 link = msg['link']
                 name = msg['user']
                 attachment = None
-                if 'attachment' in news[context[1]]:
-                    ttachment = msg['attachment']
+                if 'attachment' in msg:
+                    attachment = msg['attachment']
                 
                 clickbaitery = choice([
                     'All we can say is "yaas queen."',
