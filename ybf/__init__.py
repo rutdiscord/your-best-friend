@@ -8,20 +8,12 @@ import asyncio
 # regex (filter invites)
 import re
 
-# random chance
-from random import choice
-from random import randint
-
 from .configs import settings
 from . import commands
 
 #delete police
 from datetime import datetime, timedelta
 from .utilities import police
-
-# nlp for AF21
-from .utilities import nlp
-import json
 
 import discord
 
@@ -59,158 +51,8 @@ class Client(discord.Client):
         
         # cache the owner
         self.owner = await self.fetch_user(settings.self['owner_id'])
-
-        self.af21_data = {
-            'newsch' : self.get_guild(120330239996854274).get_channel(827034400137936907),
-            'postch' : self.get_guild(120330239996854274).get_channel(669077343482019870),
-            'range' : 5,
-            'thumbs' : [
-                    'https://cdn.discordapp.com/attachments/258370851920019456/826654848602472478/cry-4381422_640.jpg',
-                    'https://cdn.discordapp.com/attachments/258370851920019456/826654851685154816/baby-408262_640.jpg',
-                    'https://cdn.discordapp.com/attachments/258370851920019456/826654854880559114/call-2946023_640.jpg',
-                    'https://cdn.discordapp.com/attachments/258370851920019456/826654858861346836/cavalier-1444026_640.jpg',
-                    'https://cdn.discordapp.com/attachments/258370851920019456/826654861809418271/hacker-3641937_640.jpg',
-                    'https://cdn.discordapp.com/attachments/258370851920019456/826654864179200030/hacker-2883632_640.jpg',
-                    'https://cdn.discordapp.com/attachments/258370851920019456/826654868075970611/people-2557494_640.jpg',
-                    'https://cdn.discordapp.com/attachments/258370851920019456/826654869242380298/amiga-4321211_640.jpg',
-                    'https://cdn.discordapp.com/attachments/258370851920019456/826654871905632286/iman-1459322_640.jpg',
-                    'https://cdn.discordapp.com/attachments/258370851920019456/826654873336021013/people-315907_640.jpg',
-                    'https://cdn.discordapp.com/attachments/258370851920019456/826654901375205466/coronavirus-5064371_640.jpg',
-                    'https://cdn.discordapp.com/attachments/258370851920019456/826654906928201728/comic-1296117_640.png',
-                    'https://cdn.discordapp.com/attachments/258370851920019456/826654904096391178/fear-1172407_640.jpg',
-                    'https://cdn.discordapp.com/attachments/258370851920019456/826654908274049024/shocked-4625235_640.png',
-                    'https://cdn.discordapp.com/attachments/258370851920019456/826654909351854140/portrayal-89189_640.jpg',
-                    'https://cdn.discordapp.com/attachments/258370851920019456/826654911252660224/scared-2175161_640.jpg',
-                    'https://cdn.discordapp.com/attachments/258370851920019456/826654912560496650/poses-1367416_640.jpg',
-                    'https://cdn.discordapp.com/attachments/258370851920019456/826654914271772753/shocked-2681488_640.jpg',
-                    'https://cdn.discordapp.com/attachments/258370851920019456/826654915598090250/lover-1822498_640.jpg',
-                    'https://cdn.discordapp.com/attachments/258370851920019456/826654917233344523/dog-1951211_640.jpg',
-                    'https://cdn.discordapp.com/attachments/258370851920019456/826665379040067584/marguerite-241688_640.jpg',
-                    'https://cdn.discordapp.com/attachments/258370851920019456/826665386753261568/dog-1316815_640.jpg',
-                    'https://cdn.discordapp.com/attachments/258370851920019456/826665395624607744/black-and-white-4497606_640.jpg',
-                    'https://cdn.discordapp.com/attachments/258370851920019456/826665401680527370/cellphone-6020738_640.jpg',
-                    'https://cdn.discordapp.com/attachments/258370851920019456/826665407972638750/dog-breed-4683148_640.jpg',
-                    'https://cdn.discordapp.com/attachments/258370851920019456/826665414184140820/pug-2648774_640.jpg',
-                    'https://cdn.discordapp.com/attachments/258370851920019456/826665429711585290/man-2912189_960_720.png',
-                    'https://cdn.discordapp.com/attachments/258370851920019456/826665468362358834/skeleton-2267910_960_720.png',
-                    'https://cdn.discordapp.com/attachments/258370851920019456/826665476083941416/game-2294201_640.jpg',
-                    'https://cdn.discordapp.com/attachments/258370851920019456/826665486027718706/computer-games-5632592_640.jpg',
-                    'https://cdn.discordapp.com/attachments/258370851920019456/826665497801261127/woman-332278_640.jpg',
-                    'https://cdn.discordapp.com/attachments/258370851920019456/826665507578183720/skeleton-3526727_640.jpg',
-                    'https://cdn.discordapp.com/attachments/258370851920019456/826665519071100958/skeletons-1617539_640.jpg',
-                    'https://cdn.discordapp.com/attachments/258370851920019456/826665530747781140/children-593313_960_720.png',
-                    'https://cdn.discordapp.com/attachments/258370851920019456/826665544563425310/suit-673697_640.jpg',
-                    'https://cdn.discordapp.com/attachments/258370851920019456/826665556568571944/man-272679_640.jpg',
-                    'https://cdn.discordapp.com/attachments/258370851920019456/826665570752790538/keyboard-114439_640.jpg',
-                    'https://cdn.discordapp.com/attachments/258370851920019456/826665579964268575/turtle-2093580_640.jpg',
-                    'https://cdn.discordapp.com/attachments/258370851920019456/826665589412986901/boy-2137538_640.jpg',
-                    'https://cdn.discordapp.com/attachments/258370851920019456/826665595985461268/goat-3471349_640.jpg',
-                    'https://cdn.discordapp.com/attachments/258370851920019456/826665603745841192/goat-2190009_640.jpg',
-                    'https://cdn.discordapp.com/attachments/258370851920019456/826665611643977728/goat-2190007_640.jpg',
-                    'https://cdn.discordapp.com/attachments/258370851920019456/826665620187250698/goat-4088259_640.jpg',
-                    'https://cdn.discordapp.com/attachments/258370851920019456/826665637366988820/hand-person-people-girl-woman-hair-1259046-pxhere.com.jpg',
-                    'https://cdn.discordapp.com/attachments/258370851920019456/826665700608180304/emu-3479510_640.jpg',
-                    'https://cdn.discordapp.com/attachments/258370851920019456/826665729838940160/girl-1711133_640.jpg',
-                    'https://cdn.discordapp.com/attachments/258370851920019456/826665738063970315/cat-3354864_640.jpg',
-                    'https://cdn.discordapp.com/attachments/258370851920019456/826665751669637181/animal-food-green-produce-frog-amphibian-494573-pxhere.com.jpg',
-                    'https://cdn.discordapp.com/attachments/258370851920019456/826665795454632026/giant-tortoises-3326011_640.jpg',
-                    'https://cdn.discordapp.com/attachments/258370851920019456/826665855576178698/cat-3737295_640.jpg',
-                    'https://cdn.discordapp.com/attachments/258370851920019456/826665861037293578/cat-3092650_640.jpg',
-                    'https://cdn.discordapp.com/attachments/258370851920019456/826665867680415764/fox-2576119_640.jpg',
-                    'https://cdn.discordapp.com/attachments/258370851920019456/826665874420793384/animal-967657_640.jpg',
-                    'https://cdn.discordapp.com/attachments/258370851920019456/826665880438964244/animal-3118729_640.jpg',
-                    'https://cdn.discordapp.com/attachments/258370851920019456/826665886332485662/cat-3602557_640.jpg',
-                    'https://cdn.discordapp.com/attachments/258370851920019456/826665892393123861/fight-3391878_640.jpg',
-                    'https://cdn.discordapp.com/attachments/258370851920019456/826665900266618911/foxes-4962909_640.jpg',
-                    'https://cdn.discordapp.com/attachments/258370851920019456/826665907270975488/fox-3852427_640.jpg',
-                    'https://cdn.discordapp.com/attachments/258370851920019456/826665916019769354/common-raven-4174069_640.jpg',
-                    'https://cdn.discordapp.com/attachments/258370851920019456/826665922806546432/black-crow-4356185_640.jpg',
-                    'https://cdn.discordapp.com/attachments/258370851920019456/826665929903439892/crow-4339682_640.jpg'
-                ],
-                "message_queue" : []
-        }
-
+        
         print('[Ready]')
-
-        while not self.is_closed():
-            # af21 queue check
-            if len(self.af21_data['message_queue']) > 0:
-                msg = self.af21_data['message_queue'].pop(0)
-
-                headline = msg['headline']
-                link = msg['link']
-                name = msg['user']
-                attachment = None
-                if 'attachment' in msg:
-                    attachment = msg['attachment']
-                
-                clickbaitery = choice([
-                    'All we can say is "yaas queen."',
-                    'Is this what finally cancels them?',
-                    'Take that, patriarchy!',
-                    'Literally ruining our childhoods.',
-                    'This time, for real. We swear.',
-                    f'I guess we know why they\'re called {name} now huh?',
-                    'Girl, I am shook.',
-                    f'I can\'t believe {name} has done this.',
-                    'The controversy that is shaking the world!',
-                    'And we couldn\'t be more upset.',
-                    'I\'m shaking and crying.',
-                    'Number 3 will shock you.',
-                    'Real! Not clickbait!',
-                    'Certified as "Not Fake News".',
-                    'Great, something else to worry about besides my crippling student debt.',
-                    'Part of our "Feel better about yourself by laughing at the expense of someone else" line of quizzes.',
-                    'Here\'s why it\'s so adorable.',
-                    'Something to care about while waiting for the next *WandaVision* episode.',
-                    'Quite frankly? It\'s about time someone said it.',
-                    'We demonstrated the issue with cat photos. (Slideshow - 6 Images)',
-                    'It was probably the libertarians\' idea.',
-                    'Why I\'m still waiting for an apology and—more importantly—why I\'ll refuse to accept it when they do.',
-                    'There goes my faith in humanity. *Again.*',
-                    'Finally, something to restore your faith in humanity. *Again.*',
-                    f'With a name like {name} it was only a matter of time.'
-                ])
-                
-                if attachment:
-                    thumb = attachment
-                else:
-                    thumb = choice(self.af21_data['thumbs'])
-
-                color = randint(0x000000, 0xFFFFFF)
-
-                newmsg = await self.af21_data['newsch'].send(
-                    embed=self.embed_builder(
-                        color,
-                        f'[{clickbaitery}]({link})',
-                        title=headline)
-                            .set_author(name="BREAKING NEWS")
-                            .set_thumbnail(url=thumb))
-
-                # news = {}
-                # try:
-                #     with open('./ybf/configs/news.json', encoding='utf-8') as data:
-                #         news = json.load(data)
-
-                # except(FileNotFoundError, json.decoder.JSONDecodeError):
-                #    pass
-
-                # msg = self.af21_data['message_queue'].pop(0)
-
-                # headline = msg['headline']
-                # link = msg['link']
-                # attachment_msg = ''
-                # if 'attachment' in msg:
-                #     ach = msg['attachment']
-                #     attachment_msg = f'\n\nMessage has an attachment: {ach}'
-
-                # await self.af21_data['postch'].send(f'Generated from {link}\n\n{headline}\nApprove it with `f!news {len(news)}`{attachment_msg}')
-
-                # news[str(len(news))] = msg
-
-                # with open('./ybf/configs/news.json', 'w', encoding='utf-8') as data:
-                #     json.dump(news, data)
-            await asyncio.sleep(5)
 
     async def check_for_mentions(self, message):
         '''
@@ -233,28 +75,6 @@ class Client(discord.Client):
                 return True
 
     #### EVENTS ####
-
-    def generate_news_post(self, message):
-        if message.guild.id == 120330239996854274 and randint(1,self.af21_data['range']) == 1:
-            if '||' in message.content: return
-            if message.channel.id == settings.guild[120330239996854274]['channels']['roleban']: return
-            if message.channel.category_id == settings.guild[120330239996854274]['categories']['staff']: return
-            if message.channel.category_id == 581339984519233536: return
-
-            headline = nlp.generate(message.author.display_name, message.clean_content)
-            
-            if headline:
-                data = {
-                    "user" : message.author.display_name,
-                    "headline" : headline,
-                    "link" : f"https://discord.com/channels/{message.guild.id}/{message.channel.id}/{message.id}"
-                }
-
-                if message.attachments:
-                    data['attachment'] = message.attachments[0].url
-
-                self.af21_data['message_queue'].append(data)
-                # print(f'Generated headline: {headline}')
 
     async def on_message(self, message):
         if (
@@ -319,7 +139,6 @@ class Client(discord.Client):
                 banned_msg = await self.check_for_banned_messages(message)
                 if(banned_msg):
                     await message.delete()
-                self.generate_news_post(message)
                     
             return # don't continue to check for a command
 
