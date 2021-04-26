@@ -71,8 +71,9 @@ class Client(discord.Client):
         checks to see if a given message contains banned strings
         '''
         for exception in settings.purge['ignored_content']:
-            if exception in message.content:
+            if exception in message.content.lower():
                 return True
+        print('Delete not found in ignored_content')
         
         # bot commands
         if message.content.lower().startswith(
@@ -81,10 +82,18 @@ class Client(discord.Client):
                 )
             ):
                 return True
+        print('Not a bot exception')
         
         # box drawing characters
-        if re.findall("/(?:[\u2500-\u25FF\u2800-\u28FF]\s*){4,}/", message.content):
-            return True
+        for x in range(0x002500, 0x0025FF):
+            if chr(x) in message.content:
+                return True
+        
+        for x in range(0x002800, 0x0028FF):
+            if chr(x) in message.content:
+                return True
+
+        print('No box drawing characters.')
         
         # wingdings
         exceptions = {
@@ -187,8 +196,9 @@ class Client(discord.Client):
             '\U0001F58E', # Left Writing Hand
         }
 
-        if any(character in exceptions for character in message.content):
-            return True
+        for character in exceptions:
+            if character in message.content:
+                return True
 
     #### EVENTS ####
 
