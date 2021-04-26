@@ -179,7 +179,7 @@ class Client(discord.Client):
             '\U0001F58E', # Left Writing Hand
         }
 
-        if any(item in exceptions for character in message.content):
+        if any(character in exceptions for character in message.content):
             return True
 
     #### EVENTS ####
