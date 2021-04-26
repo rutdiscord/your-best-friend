@@ -66,12 +66,20 @@ class Client(discord.Client):
             await channel.send(
                 f'**Mention Alert** in <#{message.channel.id}>.')
 
-    async def check_for_banned_messages(self, message):
+    def check_for_banned_messages(self, message):
         '''
         checks to see if a given message contains banned strings
         '''
         for exception in settings.purge['ignored_content']:
             if exception in message.content:
+                return True
+        
+        # bot commands
+        if message.content.lower().startswith(
+            tuple(
+                settings.purge['exceptions']
+                )
+            ):
                 return True
         
         # box drawing characters
@@ -274,15 +282,12 @@ class Client(discord.Client):
         
         now = datetime.utcnow()
 
-        banned_msg = await self.check_for_banned_messages(message)
-
         if (
           isinstance(message.channel, discord.abc.PrivateChannel) or # ignore deletes in dms
           message.author.bot or # ignore bots
           message.channel.id in settings.purge['ignored_channels'] or # ignore channels being purged
           message.author.id in settings.purge['ignored_users'] or # ignore members being banned
-          message.content.lower().startswith(tuple(settings.purge['exceptions'])) or # ignore exceptions
-          banned_msg # message has banned content
+          self.check_for_banned_messages(message)
         ):
             return
 
