@@ -227,8 +227,8 @@ async def react(client, payload):
             embed=client.embed_builder(
                     payload.member.colour,
                     'If you believe this to be in error, please send us another report with further information.',
-                    title=f'Report {payload.message_id} has been closed by {payload.member.display_name}.'
-                ).set_footer(icon_url=payload.member.avatar_url)
+                    title=f'Report {payload.message_id} has been closed.'
+                ).set_footer(icon_url=payload.member.avatar_url, text=f'Closed by {payload.member.display_name}.')
             )
 
         return reports.pop(str(payload.message_id))
@@ -259,8 +259,8 @@ async def react(client, payload):
         embed=client.embed_builder(
             msg.author.colour,
             msg.content,
-            title=f'Reply to report {payload.message_id} from {msg.author.display_name}:'
-        ).set_footer(icon_url=msg.author.avatar_url)
+            title=f'Reply to report {payload.message_id}:'
+        ).set_footer(icon_url=msg.author.avatar_url, text=f'--{msg.author.display_name}')
     )
 
     await bot_spam_channel.send('Reply sent successfully.')
