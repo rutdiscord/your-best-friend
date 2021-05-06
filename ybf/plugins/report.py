@@ -8,7 +8,7 @@ reports = {}
 
 export = False
 
-valid_mojis = (
+valid_mojis = {
     '\U0001F4DD', # :memo: / :pencil:
     '\u21A9',     # :leftwards_arrow_with_hook:
     '\u270D',     # :writing_hand:
@@ -16,7 +16,11 @@ valid_mojis = (
     '\U0001F4AC', # :speech_balloon:
     '\U0001F5E8\ufe0f', # :speech_left:
     '\U0001F441\u200D\U0001F5E8' # :eye_in_speech_bubble: / :eye_am_a_witness:
-)
+}
+
+close_moji = {
+    '\u274c' # :x:
+}
 
 async def ready(client):
     try:
@@ -146,31 +150,33 @@ async def command(client, message, command):
     globals()['export'] = True
 
     try:
-        msg = await message.author.send(
+        return await message.author.send(
             embed=discord.Embed(
                 color=client.colors['default'],
                 title='Success',
-                description='Your report has been recieved. Would you like '
-                            'a copy of the report, exactly how it appears to'
-                            ' the staff, for your records?'
+                description=f'Your report has been recieved. Report ID: {report_id.id}\n'
+                              'We will respond as soon as possible, and follow up if necessary.'
+                              'If your message is closed, you will be informed.'
             )
         )
     except discord.Forbidden:
         # we are blocked
         return
 
+    '''
+    # old report dupe code
     await msg.add_reaction('\u2705') # :white_check_mark:
 
     def check(reaction, user):
         return (
             isinstance(reaction.message.channel, discord.abc.PrivateChannel) and
             user == message.author and
-            reaction.message.id == msg.id and
+            # reaction.message.id == msg.id and # why isnt this working
             str(reaction.emoji) == '\u2705'
         )
 
     try:
-        reaction, user = await client.wait_for('reaction_add', timeout=60.0, check=check)
+        await client.wait_for('reaction_add', timeout=60.0, check=check)
     except asyncio.TimeoutError:
         await msg.remove_reaction('\u2705', client.user)
         return
@@ -183,6 +189,7 @@ async def command(client, message, command):
             description=message.content.split(None, 1)[1]
         ).set_footer(text='Any attachments have been included as URLs.')
     )
+    '''
 
 async def react(client, payload):
     if (
@@ -190,14 +197,13 @@ async def react(client, payload):
         payload.channel_id != settings.guild[payload.guild_id]['channels']['report'] or # didn't react in our report channel: ignore
         str(payload.message_id) not in reports or # not a report: ignore
         payload.emoji.is_custom_emoji() or # unicode emojis only
-        payload.emoji.name not in valid_mojis # not a reply emoji
+        payload.emoji.name not in valid_mojis or close_moji # not a reply emoji
     ):
         return
 
     bot_spam_channel = client.get_guild(payload.guild_id).get_channel(
         settings.guild[payload.guild_id]['channels']['bot_spam']
     )
-
     reporter = await client.get_guild(payload.guild_id).fetch_member(reports[str(payload.message_id)])
 
     if not reporter:
@@ -205,9 +211,22 @@ async def react(client, payload):
         return await bot_spam_channel.send(
             embed=client.embed_builder(
                 'error',
-                'Unable to send report: User has left the server.'
+                'Unable to modify report: User has left the server.'
             ).set_footer(text='This report has been deleted.')
         )
+    
+    # close report
+    if payload.emoji.name in close_moji:
+
+        await reporter.send(
+            embed=client.embed_builder(
+                    payload.member.colour,
+                    'If you believe this to be in error, please send us another report with further information.',
+                    title=f'Report {payload.message_id} has been closed by {payload.member.display_name}.'
+                ).set_footer(icon_url=payload.member.avatar_url)
+            )
+
+        return reports.pop(str(payload.message_id))
 
     editmsg = await bot_spam_channel.send(
         f'**<@{payload.user_id}> You have selected to reply to report '
@@ -233,15 +252,15 @@ async def react(client, payload):
 
     await reporter.send(
         embed=client.embed_builder(
-            'error',
+            msg.author.colour,
             msg.content,
-            title='You have received a reply from the staff regarding your report.'
-        )
+            title=f'Reply to report {payload.message_id} from {msg.author.display_name}:'
+        ).set_footer(icon_url=msg.author.avatar_url)
     )
 
     await bot_spam_channel.send('Reply sent successfully.')
 
-    reports.pop(str(payload.message_id) )
+    # reports.pop(str(payload.message_id) )
 
 async def close(client):
     if export:
