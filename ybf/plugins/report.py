@@ -196,7 +196,7 @@ async def react(client, payload):
         payload.guild_id not in settings.guild or # guild not found (DM?)
         payload.channel_id != settings.guild[payload.guild_id]['channels']['report'] or # didn't react in our report channel: ignore
         str(payload.message_id) not in reports or # not a report: ignore
-        payload.emoji.is_custom_emoji() or # unicode emojis only
+        payload.emoji.is_custom_emoji() # unicode emojis only
     ):
         return
     
