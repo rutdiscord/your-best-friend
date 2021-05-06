@@ -231,6 +231,10 @@ async def react(client, payload):
                 ).set_footer(icon_url=payload.member.avatar_url, text=f'Closed by {payload.member.display_name}.')
             )
 
+        await client.get_guild(payload.guild_id).get_channel(
+                settings.guild[payload.guild_id]['channels']['report']
+            ).send(f'Report {payload.message_id} has been **closed**.')
+
         return reports.pop(str(payload.message_id))
 
     editmsg = await bot_spam_channel.send(
