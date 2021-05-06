@@ -14,7 +14,7 @@ valid_mojis = (
     '\u270D',     # :writing_hand:
     '\U0001F4E7', # :e_mail:
     '\U0001F4AC', # :speech_balloon:
-    '\U0001F5E8', # :speech_left:
+    '\U0001F5E8\ufe0f', # :speech_left:
     '\U0001F441\u200D\U0001F5E8' # :eye_in_speech_bubble: / :eye_am_a_witness:
 )
 
