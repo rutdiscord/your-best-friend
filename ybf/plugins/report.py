@@ -197,7 +197,8 @@ async def react(client, payload):
         payload.channel_id != settings.guild[payload.guild_id]['channels']['report'] or # didn't react in our report channel: ignore
         str(payload.message_id) not in reports or # not a report: ignore
         payload.emoji.is_custom_emoji() or # unicode emojis only
-        payload.emoji.name not in valid_mojis or close_moji # not a reply emoji
+        payload.emoji.name not in valid_mojis or # not a reply emoji
+        payload.emoji.name not in close_moji # not a close emoji
     ):
         return
 
