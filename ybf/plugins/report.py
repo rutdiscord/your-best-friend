@@ -219,57 +219,67 @@ async def react(client, payload):
                 'Unable to modify report: User has left the server.'
             ).set_footer(text='This report has been deleted.')
         )
-    
-    # close report
-    if payload.emoji.name in close_moji:
+    try:
+        # close report
+        if payload.emoji.name in close_moji:
+
+            await reporter.send(
+                embed=client.embed_builder(
+                        payload.member.colour,
+                        'If you believe this to be in error, please send us another report with further information.',
+                        title=f'Report {payload.message_id} has been closed.'
+                    ).set_footer(icon_url=payload.member.avatar_url, text=f'Closed by {payload.member.display_name}.')
+                )
+
+            await client.get_guild(payload.guild_id).get_channel(
+                    settings.guild[payload.guild_id]['channels']['report']
+                ).send(f'Report {payload.message_id} has been **closed**.')
+
+            return reports.pop(str(payload.message_id))
+
+        # send report
+
+        editmsg = await bot_spam_channel.send(
+            f'**<@{payload.user_id}> You have selected to reply to report '
+            f'{payload.message_id}.**\n\nPlease enter your response in this '
+            'channel.\nThis times out after 3 minutes. You can cancel it by sending'
+            ' `cancel`'
+        )
+
+        def check(m):
+            if (
+                m.channel == bot_spam_channel and
+                m.author.id == payload.user_id
+            ):
+                if m.content.lower() == 'cancel':
+                    raise NameError
+
+                return True
+
+        try:
+            msg = await client.wait_for('message', timeout=180.0, check=check)
+        except (asyncio.TimeoutError, NameError):
+            return await editmsg.edit(content=f'~~{editmsg.content}~~\n\nCancelled.')
 
         await reporter.send(
             embed=client.embed_builder(
-                    payload.member.colour,
-                    'If you believe this to be in error, please send us another report with further information.',
-                    title=f'Report {payload.message_id} has been closed.'
-                ).set_footer(icon_url=payload.member.avatar_url, text=f'Closed by {payload.member.display_name}.')
-            )
+                msg.author.colour,
+                msg.content,
+                title=f'Reply to report {payload.message_id}:'
+            ).set_footer(icon_url=msg.author.avatar_url, text=f'--{msg.author.display_name}')
+        )
 
-        await client.get_guild(payload.guild_id).get_channel(
-                settings.guild[payload.guild_id]['channels']['report']
-            ).send(f'Report {payload.message_id} has been **closed**.')
+        await bot_spam_channel.send('Reply sent successfully.')
 
-        return reports.pop(str(payload.message_id))
-
-    editmsg = await bot_spam_channel.send(
-        f'**<@{payload.user_id}> You have selected to reply to report '
-        f'{payload.message_id}.**\n\nPlease enter your response in this '
-        'channel.\nThis times out after 3 minutes. You can cancel it by sending'
-        ' `cancel`'
-    )
-
-    def check(m):
-        if (
-            m.channel == bot_spam_channel and
-            m.author.id == payload.user_id
-        ):
-            if m.content.lower() == 'cancel':
-                raise NameError
-
-            return True
-
-    try:
-        msg = await client.wait_for('message', timeout=180.0, check=check)
-    except (asyncio.TimeoutError, NameError):
-        return await editmsg.edit(content=f'~~{editmsg.content}~~\n\nCancelled.')
-
-    await reporter.send(
-        embed=client.embed_builder(
-            msg.author.colour,
-            msg.content,
-            title=f'Reply to report {payload.message_id}:'
-        ).set_footer(icon_url=msg.author.avatar_url, text=f'--{msg.author.display_name}')
-    )
-
-    await bot_spam_channel.send('Reply sent successfully.')
-
-    # reports.pop(str(payload.message_id) )
+        # reports.pop(str(payload.message_id) )
+    
+    except discord.errors.Forbidden:
+        return await bot_spam_channel.send(
+            embed=client.embed_builder(
+                'error',
+                'Unable to send message to user: User is not accepting DMs.'
+            ).set_footer(text='This report has not been been deleted.')
+        )
 
 async def close(client):
     if export:
