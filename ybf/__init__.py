@@ -206,7 +206,7 @@ class Client(discord.Client):
             return
 
         # did this message come from a DM?
-        direct_message = isinstance(message.channel, discord.abc.PrivateChannel)
+        direct_message = isinstance(message.channel, discord.channel.DMChannel)
 
         if not direct_message:
             # special checks for guilds
@@ -289,7 +289,7 @@ class Client(discord.Client):
         now = datetime.utcnow()
 
         if (
-          isinstance(message.channel, discord.abc.PrivateChannel) or # ignore deletes in dms
+          isinstance(message.channel, discord.channel.DMChannel) or # ignore deletes in dms
           message.author.bot or # ignore bots
           message.channel.id in settings.purge['ignored_channels'] or # ignore channels being purged
           message.author.id in settings.purge['ignored_users'] or # ignore members being banned
