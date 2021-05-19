@@ -208,45 +208,40 @@ class Client(discord.Client):
         # did this message come from a DM?
         direct_message = isinstance(message.channel, discord.channel.DMChannel)
 
-        try: # fix until threads officially happen
-            if not direct_message:
-                # special checks for guilds
-                if (
-                        # role directory not cached
-                        'stored_roles' not in dir(self) or
-                        # this guild not cached
-                        message.guild.id not in self.stored_roles or
-                        # roleban role not cached
-                        'rolebanned' not in self.stored_roles[message.guild.id]
-                ):
-                    return
+        if not direct_message:
+            # special checks for guilds
+            if (
+                    # role directory not cached
+                    'stored_roles' not in dir(self) or
+                    # this guild not cached
+                    message.guild.id not in self.stored_roles or
+                    # roleban role not cached
+                    'rolebanned' not in self.stored_roles[message.guild.id]
+            ):
+                return
 
-                # announce mttnews
-                if message.channel.id in settings.announcement_channels:
-                    channel = message.guild.get_channel(
-                        settings.guild[message.guild.id]['channels']['announcement'])
+            # announce mttnews
+            if message.channel.id in settings.announcement_channels:
+                channel = message.guild.get_channel(
+                    settings.guild[message.guild.id]['channels']['announcement'])
 
-                    return await channel.send(
-                        '__***IMPORTANT***__\n'\
-                        f'*New post in <#{message.channel.id}>!!!*')
-        except AttributeError:
-            pass
+                return await channel.send(
+                    '__***IMPORTANT***__\n'\
+                    f'*New post in <#{message.channel.id}>!!!*')
 
         if not message.content: # empty message or attachment
             return
 
-        try:
-            if not direct_message and (
-                    'roles' not in dir(message.author) or # user not cached yet
-                    self.stored_roles[
-                        message.guild.id
-                    ]['rolebanned'] in message.author.roles # ignore rolebanned users
-            ):
-                await self.check_for_mentions(message)
-                return
-                # TODO: This exact code shows up thrice. Maybe squish it all into one func?
-        except AttributeError:
-            pass
+    
+        if not direct_message and (
+                'roles' not in dir(message.author) or # user not cached yet
+                self.stored_roles[
+                    message.guild.id
+                ]['rolebanned'] in message.author.roles # ignore rolebanned users
+        ):
+            await self.check_for_mentions(message)
+            return
+            # TODO: This exact code shows up thrice. Maybe squish it all into one func?
 
         # detect invocation
         invocation = None
@@ -427,6 +422,16 @@ class Client(discord.Client):
             #     return # don't announce missing permissions
             # await args[0].channel.send(
             #     embed=self.embed_builder('error', sys.exc_info()[0].__name__))
+        if isinstance(sys.exc_info()[0], AttributeError):
+            try:
+                await self.owner.send(
+                    f'{dir(args[0])}'
+                )
+            except:
+                pass
+            
+            print(dir(args[0]))
+            pass
         else:
             raise
 
