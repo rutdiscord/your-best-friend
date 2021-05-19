@@ -417,22 +417,22 @@ class Client(discord.Client):
         # it should be. We check it first in case the cause of the error wasn't a
         # message.
         if args and isinstance(args[0], discord.Message):
+            print('A message caused an error.')
+
             if isinstance(sys.exc_info()[0], discord.errors.NotFound):
                 # fail silently if message was deleted
+                print('A message was deleted.')
                 return
             
-            elif isinstance(sys.exc_info()[0], AttributeError):
-                try:
-                    await self.owner.send(
-                        f'{dir(args[0])}'
-                    )
-                except:
-                    pass
-
+            if isinstance(sys.exc_info()[0], AttributeError):
                 print(dir(args[0]))
-            else:
-                await self.owner.send(
-                    f'{args[0].jump_url}\n\n{traceback.format_exc()}')
+
+                await self.owner.send(f'{dir(args[0])}')
+
+                return
+
+            await self.owner.send(
+                f'{args[0].jump_url}\n\n{traceback.format_exc()}')
 
             # uncomment if you want ybf to post errors in chat
             # if isinstance(sys.exc_info()[0], discord.Forbidden):
