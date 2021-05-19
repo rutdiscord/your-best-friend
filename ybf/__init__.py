@@ -417,7 +417,7 @@ class Client(discord.Client):
         # it should be. We check it first in case the cause of the error wasn't a
         # message.
         if args and isinstance(args[0], discord.Message):
-            print('A message caused an error.')
+            print(sys.exc_info()[0])
 
             if isinstance(sys.exc_info()[0], discord.errors.NotFound):
                 # fail silently if message was deleted
