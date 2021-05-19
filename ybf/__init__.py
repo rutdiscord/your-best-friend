@@ -424,7 +424,7 @@ class Client(discord.Client):
                 print('A message was deleted.')
                 return
             
-            if isinstance(sys.exc_info()[0], AttributeError):
+            if isinstance(sys.exc_info()[0], type(AttributeError)): # im mad that this is the solution
                 print(dir(args[0]))
 
                 await self.owner.send(f'{dir(args[0])}')
