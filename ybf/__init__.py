@@ -423,9 +423,9 @@ class Client(discord.Client):
                 return
             
             if isinstance(sys.exc_info()[0], type(AttributeError)): # im mad that this is the solution
-                print(dir(args[0]))
+                print(dir(args[0].channel))
 
-                await self.owner.send(f'{dir(args[0])}')
+                await self.owner.send(f'{dir(args[0].channel)}')
 
                 return
 
