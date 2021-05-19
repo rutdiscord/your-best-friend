@@ -420,25 +420,25 @@ class Client(discord.Client):
             if isinstance(sys.exc_info()[0], discord.errors.NotFound):
                 # fail silently if message was deleted
                 return
+            
+            elif isinstance(sys.exc_info()[0], AttributeError):
+                try:
+                    await self.owner.send(
+                        f'{dir(args[0])}'
+                    )
+                except:
+                    pass
 
-            await self.owner.send(
-                f'{args[0].jump_url}\n\n{traceback.format_exc()}')
+                print(dir(args[0]))
+            else:
+                await self.owner.send(
+                    f'{args[0].jump_url}\n\n{traceback.format_exc()}')
 
             # uncomment if you want ybf to post errors in chat
             # if isinstance(sys.exc_info()[0], discord.Forbidden):
             #     return # don't announce missing permissions
             # await args[0].channel.send(
             #     embed=self.embed_builder('error', sys.exc_info()[0].__name__))
-        if isinstance(sys.exc_info()[0], AttributeError):
-            try:
-                await self.owner.send(
-                    f'{dir(args[0])}'
-                )
-            except:
-                pass
-            
-            print(dir(args[0]))
-            pass
         else:
             raise
 
