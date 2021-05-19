@@ -236,16 +236,19 @@ class Client(discord.Client):
         if not message.content: # empty message or attachment
             return
 
-    
-        if not direct_message and (
-                'roles' not in dir(message.author) or # user not cached yet
-                self.stored_roles[
-                    message.guild.id
-                ]['rolebanned'] in message.author.roles # ignore rolebanned users
-        ):
-            await self.check_for_mentions(message)
-            return
-            # TODO: This exact code shows up thrice. Maybe squish it all into one func?
+        try:
+            if not direct_message and (
+                    'roles' not in dir(message.author) or # user not cached yet
+                    self.stored_roles[
+                        message.guild.id
+                    ]['rolebanned'] in message.author.roles # ignore rolebanned users
+            ):
+                await self.check_for_mentions(message)
+                return
+                # TODO: This exact code shows up thrice. Maybe squish it all into one func?
+        except AttributeError:
+            #thread
+            pass
 
         # detect invocation
         invocation = None
