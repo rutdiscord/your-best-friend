@@ -286,23 +286,22 @@ class Client(discord.Client):
         settings.purge['ignored_users'].remove(user.id)
 
     async def on_message_delete(self, message):
+        now = datetime.utcnow()
+
         if self.beta and message.guild.get_member(settings.self['stable']):
             # is stable me in this server? then no dp
             return
-        
-        if message.guild.id == 256926147827335170: # r/oneshot
-            # no DP in oneshot
-            return
-        
-        now = datetime.utcnow()
 
-        if (
-          isinstance(message.channel, discord.channel.DMChannel) or # ignore deletes in dms
-          message.author.bot or # ignore bots
-          message.channel.id in settings.purge['ignored_channels'] or # ignore channels being purged
-          message.author.id in settings.purge['ignored_users'] or # ignore members being banned
-          self.check_for_banned_messages(message)
-        ):
+        try:
+            if (
+              isinstance(message.channel, discord.channel.DMChannel) or # ignore deletes in dms
+              message.author.bot or # ignore bots
+              message.channel.id in settings.purge['ignored_channels'] or # ignore channels being purged
+              message.author.id in settings.purge['ignored_users'] or # ignore members being banned
+              self.check_for_banned_messages(message)
+            ):
+                return
+        except AttributeError: # no thread support yet
             return
 
         # did a mod delete the message?
@@ -419,14 +418,6 @@ class Client(discord.Client):
         if args and isinstance(args[0], discord.Message):
             if isinstance(sys.exc_info()[0], discord.errors.NotFound):
                 # fail silently if message was deleted
-                print('A message was deleted.')
-                return
-            
-            if isinstance(sys.exc_info()[0], type(AttributeError)): # im mad that this is the solution
-                print(dir(args[0].channel))
-
-                await self.owner.send(f'{dir(args[0].channel)}')
-
                 return
 
             await self.owner.send(
