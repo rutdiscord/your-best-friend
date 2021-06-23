@@ -284,6 +284,7 @@ class Client(discord.Client):
         settings.purge['ignored_users'].remove(user.id)
 
     async def on_message_delete(self, message):
+        print('caught a message delete')
         if self.beta and message.guild.get_member(settings.self['stable']):
             # is stable me in this server? then no dp
             return
@@ -301,6 +302,7 @@ class Client(discord.Client):
           message.author.id in settings.purge['ignored_users'] or # ignore members being banned
           self.check_for_banned_messages(message)
         ):
+            print('ignoring DP due to dm, bot, or ban/purge')
             return
 
         # did a mod delete the message?
@@ -310,6 +312,7 @@ class Client(discord.Client):
           ).find(lambda m: m.target==message.author)
         # messages only appear in the audit log if someone else deleted them
         if deleted is not None:
+            print('audit log delete')
             return
 
         # Delete Police
@@ -317,6 +320,7 @@ class Client(discord.Client):
           'roleban' in settings.guild[message.guild.id]['channels'] and
           message.channel.id == settings.guild[message.guild.id]['channels']['roleban']
         ):
+            print('Roleban delete active')
             # plaintext DP in roleban channel
             if len(message.content) > 1950:
                 # Send huge messages in 2 messages
@@ -332,6 +336,7 @@ class Client(discord.Client):
         delta = now - message.created_at
 
         if police.solve(delta):
+            print('solve successful')
             msg = message.clean_content
             
             print(msg)
