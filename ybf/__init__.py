@@ -333,11 +333,13 @@ class Client(discord.Client):
 
         if police.solve(delta):
             msg = message.clean_content
-
+            
+            print(msg)
             msg = re.sub(
                 r'(https?:\/\/)?[a-zA-Z0-9-]+?\.[a-zA-Z]{1,3}\/[^\n ]*',
                 '[Invite Redacted]',
                 msg)
+            print(msg)
 
             mbd = discord.Embed(
                 color=message.author.color,
