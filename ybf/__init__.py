@@ -335,11 +335,7 @@ class Client(discord.Client):
             msg = message.clean_content
 
             msg = re.sub(
-                r'(https?:\/\/)?discord\.gg\/[a-zA-Z0-9-]*',
-                '[Invite Redacted]',
-                msg)
-            msg = re.sub(
-                r'(https?:\/\/)?discordapp\.com\/invite\/[a-zA-Z0-9-]*',
+                r'(https?:\/\/)?[a-zA-Z0-9-]+?\.[a-zA-Z]{1,3}\/[^\n ]*',
                 '[Invite Redacted]',
                 msg)
 
