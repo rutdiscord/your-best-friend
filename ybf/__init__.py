@@ -288,10 +288,6 @@ class Client(discord.Client):
             # is stable me in this server? then no dp
             return
         
-        if message.guild.id == 256926147827335170: # r/oneshot
-            # no DP in oneshot
-            return
-        
         now = datetime.utcnow()
 
         if (
@@ -299,6 +295,7 @@ class Client(discord.Client):
           message.author.bot or # ignore bots
           message.channel.id in settings.purge['ignored_channels'] or # ignore channels being purged
           message.author.id in settings.purge['ignored_users'] or # ignore members being banned
+          message.guild.id == 256926147827335170 or # no DP in oneshot
           self.check_for_banned_messages(message)
         ):
             return
