@@ -336,7 +336,7 @@ class Client(discord.Client):
 
             msg = re.sub(
                 r'(https?:\/\/)?[a-zA-Z0-9-]+?\.[a-zA-Z]{1,3}\/?[^\n ]*',
-                '[Link Redacted]',
+                '[Hyperlink Blocked]',
                 msg)
 
             mbd = discord.Embed(
