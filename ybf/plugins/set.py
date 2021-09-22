@@ -52,7 +52,7 @@ async def finisher(destination, content, type='error', title='Error'):
     )
 
 async def command(client, message, command):
-    if client.stored_roles[message.guild.id]['staff'] not in message.author.roles:
+    if message.author.id == 88401933936640000 or client.stored_roles[message.guild.id]['staff'] not in message.author.roles:
         return await message.channel.send(
             embed=client.embed_builder(
                 'error',
