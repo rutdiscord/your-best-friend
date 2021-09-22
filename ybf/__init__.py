@@ -27,7 +27,7 @@ class Client(discord.Client):
         }
         self.stored_roles = {}
         self.beta = False
-        self.af21_data = {}
+        self.invite_regex = re.compile(r'(https?:\/\/)?[a-zA-Z0-9-]+?\.[a-zA-Z]{1,3}\/?[^\n ]*')
         super().__init__()
 
     async def on_ready(self):
@@ -318,8 +318,7 @@ class Client(discord.Client):
         if police.solve(delta):
             msg = message.clean_content
 
-            msg = re.sub(
-                r'(https?:\/\/)?[a-zA-Z0-9-]+?\.[a-zA-Z]{1,3}\/?[^\n ]*',
+            msg = self.invite_regex.sub(
                 '[Hyperlink Blocked]',
                 msg)
 
