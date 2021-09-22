@@ -313,22 +313,6 @@ class Client(discord.Client):
             return
 
         # Delete Police
-        if (
-          'roleban' in settings.guild[message.guild.id]['channels'] and
-          message.channel.id == settings.guild[message.guild.id]['channels']['roleban']
-        ):
-            # plaintext DP in roleban channel
-            if len(message.content) > 1950:
-                # Send huge messages in 2 messages
-                await message.channel.send(f'___***DELETED MESSAGE BY {message.author.display_name}:***___')
-                await message.channel.send(message.clean_content)
-            else:
-                await message.channel.send(f'___***DELETED MESSAGE BY {message.author.display_name}:***___\n{message.clean_content}')
-            if message.attachments:
-                # add on number of attachments too
-                await message.channel.send(f'*Message had {len(message.attachments)} attachments.*')
-            return
-
         delta = now - message.created_at
 
         if police.solve(delta):
