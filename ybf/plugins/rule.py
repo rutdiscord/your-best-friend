@@ -1,6 +1,6 @@
 import json
 import shlex
-import discord
+import disnake as discord
 
 rules = {}
 

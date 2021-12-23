@@ -2,7 +2,7 @@ import shlex
 
 from ..configs import settings
 
-import discord
+import disnake as discord
 
 plus = (
     '+',

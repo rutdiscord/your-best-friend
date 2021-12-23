@@ -15,7 +15,7 @@ from . import commands
 from datetime import datetime, timedelta
 from .utilities import police
 
-import discord
+import disnake as discord
 
 class Client(discord.Client):
     def __init__(self):
@@ -208,29 +208,26 @@ class Client(discord.Client):
         # did this message come from a DM?
         direct_message = isinstance(message.channel, discord.channel.DMChannel)
 
-        try: # fix until threads officially happen
-            if not direct_message:
-                # special checks for guilds
-                if (
-                        # role directory not cached
-                        'stored_roles' not in dir(self) or
-                        # this guild not cached
-                        message.guild.id not in self.stored_roles or
-                        # roleban role not cached
-                        'rolebanned' not in self.stored_roles[message.guild.id]
-                ):
-                    return
+        if not direct_message:
+            # special checks for guilds
+            if (
+                    # role directory not cached
+                    'stored_roles' not in dir(self) or
+                    # this guild not cached
+                    message.guild.id not in self.stored_roles or
+                    # roleban role not cached
+                    'rolebanned' not in self.stored_roles[message.guild.id]
+            ):
+                return
 
-                # announce mttnews
-                if message.channel.id in settings.announcement_channels:
-                    channel = message.guild.get_channel(
-                        settings.guild[message.guild.id]['channels']['announcement'])
+            # announce mttnews
+            if message.channel.id in settings.announcement_channels:
+                channel = message.guild.get_channel(
+                    settings.guild[message.guild.id]['channels']['announcement'])
 
-                    return await channel.send(
-                        '__***IMPORTANT***__\n'\
-                        f'*New post in <#{message.channel.id}>!!!*')
-        except AttributeError:
-            pass
+                return await channel.send(
+                    '__***IMPORTANT***__\n'\
+                    f'*New post in <#{message.channel.id}>!!!*')
 
         if not message.content: # empty message or attachment
             return

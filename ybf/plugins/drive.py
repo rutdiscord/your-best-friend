@@ -2,7 +2,7 @@ import json
 
 from ..configs import settings
 
-import discord
+import disnake as discord
 
 drive = {}
 document = 'http://i.imgur.com/ISkKEZ8.png'

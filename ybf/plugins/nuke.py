@@ -1,6 +1,6 @@
 import re
 import shlex
-import discord
+import disnake as discord
 import asyncio
 
 from ..configs import settings

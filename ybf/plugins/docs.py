@@ -4,7 +4,7 @@ import json
 from .. import commands
 from ..configs import settings
 
-import discord
+import disnake as discord
 
 docs = {}
 

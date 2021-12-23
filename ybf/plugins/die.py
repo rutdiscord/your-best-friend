@@ -1,5 +1,5 @@
 from random import choice
-import discord
+import disnake as discord
 
 from ybf.configs import settings
 

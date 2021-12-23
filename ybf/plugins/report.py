@@ -1,6 +1,6 @@
 from ..configs import settings
 
-import discord
+import disnake as discord
 import asyncio
 import json
 
