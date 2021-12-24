@@ -285,7 +285,7 @@ class Client(discord.Client):
             # is stable me in this server? then no dp
             return
         
-        now = datetime.utcnow()
+        now = datetime.now()
 
         if (
           isinstance(message.channel, discord.channel.DMChannel) or # ignore deletes in dms
