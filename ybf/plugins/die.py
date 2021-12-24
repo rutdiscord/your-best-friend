@@ -28,11 +28,11 @@ async def command(client, message, command):
                 '* Retreats into soil *'
                 ]),
             title=None))
-    return await client.logout()
-    return await message.channel.send(
-        embed=client.embed_builder(
-            'error',
-            'You do not have permission to shut down this bot.'))
+    return await client.close()
+    # return await message.channel.send(
+    #     embed=client.embed_builder(
+    #         'error',
+    #         'You do not have permission to shut down this bot.'))
 
 aliases = [
     'shutdown',
