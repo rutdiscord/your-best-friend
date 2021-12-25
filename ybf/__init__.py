@@ -322,7 +322,7 @@ class Client(discord.Client):
 
             mbd.set_author(
                 name=f'{message.author.display_name} said...',
-                icon_url=message.author.avatar_url)
+                icon_url=message.author.display_avatar.url)
 
             mbd.set_footer(
                 text='This message was automatically re-sent because it was '\
