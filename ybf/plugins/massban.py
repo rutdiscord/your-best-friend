@@ -8,6 +8,7 @@ async def command(client, message, command):
 
     ban_reason = "Mass Ban: No reason provided."
     bans = split(command)
+    print(bans[0])
     try:
         int(bans[0])
     except ValueError:
