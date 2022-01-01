@@ -18,7 +18,7 @@ async def command(client, message, command):
     banamt = len(bans)
 
     msg = await message.reply(
-        content=f'Banning {len(banamt)} users...',
+        content=f'Banning {banamt} users...',
         mention_author=False
     )
 
