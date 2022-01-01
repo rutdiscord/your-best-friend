@@ -25,7 +25,7 @@ async def command(client, message, command):
     for i,dumb in enumerate(bans):
         try:
             await message.guild.ban(
-                disnake.Object(id=dumb),
+                disnake.Object(id=int(dumb)),
                 reason=ban_reason
             )
             await msg.edit(
