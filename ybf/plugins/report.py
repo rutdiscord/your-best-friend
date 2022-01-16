@@ -228,7 +228,7 @@ async def react(client, payload):
                         payload.member.colour,
                         'If you believe this to be in error, please send us another report with further information.',
                         title=f'Report {payload.message_id} has been closed.'
-                    ).set_footer(icon_url=payload.member.avatar_url, text=f'Closed by {payload.member.display_name}.')
+                    ).set_footer(icon_url=payload.member.display_avatar.url, text=f'Closed by {payload.member.display_name}.')
                 )
 
             await client.get_guild(payload.guild_id).get_channel(
@@ -266,7 +266,7 @@ async def react(client, payload):
                 msg.author.colour,
                 msg.content,
                 title=f'Reply to report {payload.message_id}:'
-            ).set_footer(icon_url=msg.author.avatar_url, text=f'--{msg.author.display_name}')
+            ).set_footer(icon_url=msg.author.display_avatar.url, text=f'--{msg.author.display_name}')
         )
 
         await bot_spam_channel.send('Reply sent successfully.')
