@@ -27,7 +27,8 @@ class Client(discord.Client):
         }
         self.stored_roles = {}
         self.beta = False
-        self.invite_regex = re.compile(r'(https?:\/\/)?[a-zA-Z0-9-]+?\.[a-zA-Z]{1,3}\/?[^\n ]*')
+        self.url_regex = re.compile(r'(https?:\/\/)?[a-zA-Z0-9-]+?\.[a-zA-Z]{1,3}\/?[^\n ]*')
+        self.invite_regex = re.compile(r'(https?:\/\/)?discord(app)?\.com\/(invite\/)?[a-zA-Z0-9-]+')
         super().__init__()
 
     async def on_ready(self):
@@ -311,8 +312,11 @@ class Client(discord.Client):
 
         if police.solve(delta):
             msg = message.clean_content
+            
+            if self.invite_regex.search(msg):
+                return
 
-            msg = self.invite_regex.sub(
+            msg = self.url_regex.sub(
                 '[Hyperlink Blocked]',
                 msg)
 
