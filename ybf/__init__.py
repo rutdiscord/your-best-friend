@@ -29,7 +29,9 @@ class Client(discord.Client):
         self.beta = False
         self.url_regex = re.compile(r'(https?:\/\/)?[a-zA-Z0-9-]+?\.[a-zA-Z]{1,3}\/?[^\n ]*')
         self.invite_regex = re.compile(r'(https?:\/\/)?discord(app)?\.(com|gg)\/(invite\/)?[a-zA-Z0-9-]+')
-        super().__init__(intents=discord.Intents.all())
+        intents = discord.Intents.all()
+        intents.presences = False
+        super().__init__(intents=intents)
 
     async def on_ready(self):
         # cache ids to usable roles
