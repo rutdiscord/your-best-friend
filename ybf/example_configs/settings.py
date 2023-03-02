@@ -51,6 +51,7 @@ guild = {  # Presently all servers YBF will operate in MUST be hardcoded.
         },
         'role_ids': [
             ['staff', 244328249801000000], # ID of the role for people on your staff (you might need a bot to get this)
+            ['mod_bots', 131118847431278592], #ID of mod bot role.
             ['rolebanned', 122150407806000000] # ID of the role for people currently rolebanned (all bot commands from people with this role will be ignored.)
         ]
     }
