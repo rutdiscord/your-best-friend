@@ -17,7 +17,6 @@ async def react(client, payload):
     reactions[token] = now
 
     print(token)
-    print(reactions)
 
     await sleep(5)
 
@@ -27,6 +26,11 @@ async def react(client, payload):
 
 async def reactRemove(client, payload):
     token = '{payload.message_id}|{payload.user_id}'
+    if token in reactions:
+        print(token in reactions)
+        print(reactions[token])
+    else:
+        print(token in reactions)
 
     if (
         payload.guild_id not in settings.guild or # guild not found (DM?)
