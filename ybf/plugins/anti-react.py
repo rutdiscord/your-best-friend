@@ -54,7 +54,7 @@ async def reactRemove(client, payload):
                          'Please allow a 3 second breadth between reactions.\n'
                          '*You will be automatically muted on the second '
                          'infraction.*\n'
-                        f'<@{staff_id}>'
+                        f'<@&{staff_id}>'
                 )
         else:
             # print('Roleban.')
@@ -66,4 +66,4 @@ async def reactRemove(client, payload):
             )
             await channel.send(f'<@{payload.user_id} has been rolebanned for '
                                 'multiple reaction quick-deletes.'
-                               f'<@{staff_id}>')
+                               f'<@&{staff_id}>')
