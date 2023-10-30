@@ -371,11 +371,13 @@ class Client(discord.Client):
     async def on_raw_reaction_add(self, payload):
         for plugin in commands.iterable:
             if 'react' in dir(plugin):
+                print(f'calling react on {plugin.__name__}')
                 await plugin.react(self, payload)
     
     async def on_raw_reaction_remove(self, payload):
         for plugin in commands.iterable:
             if 'reactRemove' in dir(plugin):
+                print(f'calling reactremove on {plugin.__name__}')
                 await plugin.reactRemove(self, payload)
 
     def embed_builder(self, kind, desc, title="Error"):
