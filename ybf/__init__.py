@@ -296,6 +296,8 @@ class Client(discord.Client):
           message.channel.id in settings.purge['ignored_channels'] or # ignore channels being purged
           message.author.id in settings.purge['ignored_users'] or # ignore members being banned
           message.guild.id == 256926147827335170 or # no DP in oneshot
+          message.channel.id == 1089200413510742118 or # no DP in testing channel
+          (isinstance(message.channel, discord.Thread) and (message.channel.parent.id == 1027772036690497597 or message.channel.parent.id == 1091479882476826674)) or # no DP in forum forum
           self.check_for_banned_messages(message)
         ):
             return
