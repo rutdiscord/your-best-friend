@@ -3,13 +3,37 @@ from asyncio import sleep
 
 from ..configs import settings
 
-reactions = {
-    
-}
+reactions = {}
 
 warned = []
 
+active = False
+
+async def command(client, message, command):
+    global active
+    global reactions
+    global warned
+
+    if client.stored_roles[message.guild.id]['staff'] not in message.author.roles:
+        return
+    
+    c = command.strip()
+    
+    if c == 'on' or c == 'true':
+        await message.channel.send('Turning anti-react on.')
+        active = True
+    elif c == 'off' or c == 'false':
+        await message.channel.send('Turning anti-react off.')
+        active = False
+    
+    if c == 'off' or c == 'false' or c == 'clear':
+        reactions = {}
+        warned = []
+        await message.channel.send('Cleared warned users.')
+
 async def react(client, payload):
+    if not active: return
+
     token = f'{payload.message_id}|{payload.user_id}'
 
     now = datetime.now()
@@ -25,6 +49,8 @@ async def react(client, payload):
         # print('Token removed.')
 
 async def reactRemove(client, payload):
+    if not active: return
+
     token = f'{payload.message_id}|{payload.user_id}'
 
     if (
@@ -67,3 +93,8 @@ async def reactRemove(client, payload):
             await channel.send(f'<@{payload.user_id} has been rolebanned for '
                                 'multiple reaction quick-deletes.'
                                f'<@&{staff_id}>')
+
+
+aliases = [
+    'react'
+]
