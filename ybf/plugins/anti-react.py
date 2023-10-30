@@ -11,19 +11,29 @@ warned = []
 
 async def react(client, payload):
     token = f'{payload.message_id}|{payload.user_id}'
+
     now = datetime.now()
+
     reactions[token] = now
+
+    print(token)
+    print(reactions)
+
     await sleep(5)
+
     if token in reactions:
         del reactions[token]
+        print('Token removed.')
 
 async def reactRemove(client, payload):
     if (
         payload.guild_id not in settings.guild or # guild not found (DM?)
         payload.message_id not in reactions
     ):
+        print('No effect on removed reaction.')
         return
 
+    print('Taking action.')
     now = datetime.now()
 
     token = '{payload.message_id}|{payload.user_id}'
@@ -33,8 +43,11 @@ async def reactRemove(client, payload):
     channel = await client.get_channel(payload.channel_id)
     staff_id = client.stored_roles[channel.guild.id]['staff']
 
+    print(delta)
+
     if delta > 3:
         if payload.user_id not in warned:
+            print('Warning.')
             warned.append(payload.user_id)
             await channel.send(
                 content=f'***WARNING:*** <@{payload.user_id}> has triggered '
@@ -45,6 +58,7 @@ async def reactRemove(client, payload):
                         f'<@{staff_id}>'
                 )
         else:
+            print('Roleban.')
             member = await channel.guild.get_member(payload.user_id)
             await member.edit(
                 roles=[
