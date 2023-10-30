@@ -25,7 +25,8 @@ async def react(client, payload):
         print('Token removed.')
 
 async def reactRemove(client, payload):
-    token = '{payload.message_id}|{payload.user_id}'
+    token = f'{payload.message_id}|{payload.user_id}'
+
     if token in reactions:
         print(token in reactions)
         print(reactions[token])
@@ -44,12 +45,12 @@ async def reactRemove(client, payload):
 
     delta = now - reactions[token] # just to make sure we don't bug out
 
-    channel = await client.get_channel(payload.channel_id)
-    staff_id = client.stored_roles[channel.guild.id]['staff']
+    channel = client.get_channel(payload.channel_id)
+    staff_id = client.stored_roles[channel.guild.id]['staff'].id
 
     print(delta)
 
-    if delta > 3:
+    if delta.total_seconds() < 3:
         if payload.user_id not in warned:
             print('Warning.')
             warned.append(payload.user_id)
