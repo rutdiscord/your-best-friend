@@ -26,17 +26,17 @@ async def react(client, payload):
         print('Token removed.')
 
 async def reactRemove(client, payload):
+    token = '{payload.message_id}|{payload.user_id}'
+
     if (
         payload.guild_id not in settings.guild or # guild not found (DM?)
-        payload.message_id not in reactions
+        token not in reactions
     ):
         print('No effect on removed reaction.')
         return
 
     print('Taking action.')
     now = datetime.now()
-
-    token = '{payload.message_id}|{payload.user_id}'
 
     delta = now - reactions[token] # just to make sure we don't bug out
 
