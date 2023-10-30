@@ -34,26 +34,32 @@ class Client(discord.Client):
         super().__init__(intents=intents)
 
     async def on_ready(self):
+        print ('Readying up...')
         # cache ids to usable roles
         for guild in settings.guild:
             if guild in [guild.id for guild in self.guilds]:
                 self.stored_roles[guild] = {}
                 for id in settings.guild[guild]['role_ids']:
+                    print(f'Getting role {id}')
                     self.stored_roles[guild][id[0]] = self.get_guild(guild).get_role(id[1])
 
         # activate any commands that need to cache stuff
         for plugin in commands.iterable:
             try:
                 await plugin.ready(self)
+                print(f'Did {plugin.__name__}.ready')
             except AttributeError:
+                print(f'{plugin.__name__} has no ready')
                 pass
 
         # are we on the beta branch? if so, ignore the stable bot
         if self.user.id == settings.self['beta']:
+            print('Running in beta mode.')
             self.beta = True
         
         # cache the owner
         self.owner = await self.fetch_user(settings.self['owner_id'])
+        print('Owner cached.')
         
         print('[Ready]')
 
