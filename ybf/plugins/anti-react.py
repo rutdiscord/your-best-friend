@@ -16,31 +16,25 @@ async def react(client, payload):
 
     reactions[token] = now
 
-    print(token)
+    # print(token)
 
     await sleep(5)
 
     if token in reactions:
         del reactions[token]
-        print('Token removed.')
+        # print('Token removed.')
 
 async def reactRemove(client, payload):
     token = f'{payload.message_id}|{payload.user_id}'
-
-    if token in reactions:
-        print(token in reactions)
-        print(reactions[token])
-    else:
-        print(token in reactions)
 
     if (
         payload.guild_id not in settings.guild or # guild not found (DM?)
         token not in reactions
     ):
-        print('No effect on removed reaction.')
+        # print('No effect on removed reaction.')
         return
 
-    print('Taking action.')
+    # print('Taking action.')
     now = datetime.now()
 
     delta = now - reactions[token] # just to make sure we don't bug out
@@ -48,11 +42,11 @@ async def reactRemove(client, payload):
     channel = client.get_channel(payload.channel_id)
     staff_id = client.stored_roles[channel.guild.id]['staff'].id
 
-    print(delta)
+    # print(delta)
 
     if delta.total_seconds() < 3:
         if payload.user_id not in warned:
-            print('Warning.')
+            # print('Warning.')
             warned.append(payload.user_id)
             await channel.send(
                 content=f'***WARNING:*** <@{payload.user_id}> has triggered '
@@ -63,7 +57,7 @@ async def reactRemove(client, payload):
                         f'<@{staff_id}>'
                 )
         else:
-            print('Roleban.')
+            # print('Roleban.')
             member = await channel.guild.get_member(payload.user_id)
             await member.edit(
                 roles=[
