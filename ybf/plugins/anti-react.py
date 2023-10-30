@@ -1,4 +1,4 @@
-import datetime
+from datetime import datetime
 from asyncio import sleep
 
 from ..configs import settings
