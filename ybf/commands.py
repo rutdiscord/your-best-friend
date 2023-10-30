@@ -16,4 +16,4 @@ for plugin in os.scandir('./ybf/plugins'):
         iterable.append(package)
 
         for alias in package.aliases:
-            list[alias] = package.command
+            all_commands[alias] = package.command
