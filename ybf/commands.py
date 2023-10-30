@@ -3,7 +3,7 @@ import os
 
 # print('Working in ' + os.getcwd())
 
-list = {}
+all_commands = {}
 iterable = []
 
 print('Importing plugins...')

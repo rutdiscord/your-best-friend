@@ -267,8 +267,8 @@ class Client(discord.Client):
         command = message.content[len(invocation):].split()[0].lower()
 
         # run command
-        if command in commands.list:
-            return await commands.list[command](self, message, message.content[len(invocation):])
+        if command in commands.all_commands:
+            return await commands.all_commands[command](self, message, message.content[len(invocation):])
 
         if direct_message:
             return
