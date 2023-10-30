@@ -11,7 +11,7 @@ warned = []
 
 async def react(client, payload):
     token = f'{payload.message_id}|{payload.user_id}'
-    now = datetime.now(tz=message.created_at.tzinfo)
+    now = datetime.now()
     reactions[token] = now
     await sleep(5)
     if token in reactions:
@@ -24,7 +24,7 @@ async def reactRemove(client, payload):
     ):
         return
 
-    now = datetime.now(tz=message.created_at.tzinfo)
+    now = datetime.now()
 
     token = '{payload.message_id}|{payload.user_id}'
 
