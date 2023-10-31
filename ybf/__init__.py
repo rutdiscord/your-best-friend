@@ -430,13 +430,3 @@ class Client(discord.Client):
             #     pass
 
         await super().close()
-
-# if __name__ == '__main__':
-#     # Only start the bot if it is being run directly
-#     YBF = Client()
-#
-#     KEY = None
-#     with open('./configs/token.key', encoding='utf-8') as keyfile:
-#         KEY = keyfile.read().strip()
-#
-#     YBF.run(KEY)
