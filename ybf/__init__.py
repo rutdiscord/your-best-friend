@@ -234,8 +234,9 @@ class Client(discord.Client):
                     f'*New post in <#{message.channel.id}>!!!*')
             
             # remove antiraid from trusted accounts
-            if datetime.now(tz=message.author.joined_at.tzinfo) - message.author.joined_at > timedelta(days=1):
-                if self.stored_roles['antiraid'] in message.author.roles:
+            if 'antiraid' in self.stored_roles and \
+                self.stored_roles['antiraid'] in message.author.roles and\
+                datetime.now(tz=message.author.joined_at.tzinfo) - message.author.joined_at > timedelta(days=1):
                     await self.remove_roles(self.stored_roles['antiraid'])
 
         if not message.content: # empty message or attachment
