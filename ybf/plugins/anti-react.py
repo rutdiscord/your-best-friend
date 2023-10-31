@@ -15,9 +15,14 @@ async def command(client, message, command):
     global warned
 
     if client.stored_roles[message.guild.id]['staff'] not in message.author.roles:
+        # print('Ignoring non-staff')
         return
     
-    c = command.strip()
+    c = command.split(None, 1)
+    if len(c) > 1:
+        c = c[1].strip()
+
+    # print(c)
     
     if c == 'on' or c == 'true':
         await message.channel.send('Turning anti-react on.')
@@ -93,7 +98,6 @@ async def reactRemove(client, payload):
             await channel.send(f'<@{payload.user_id} has been rolebanned for '
                                 'multiple reaction quick-deletes.'
                                f'<@&{staff_id}>')
-
 
 aliases = [
     'react'
