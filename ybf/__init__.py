@@ -232,6 +232,11 @@ class Client(discord.Client):
                 return await channel.send(
                     '__***IMPORTANT***__\n'\
                     f'*New post in <#{message.channel.id}>!!!*')
+            
+            # remove antiraid from trusted accounts
+            if datetime.now(tz=message.author.joined_at.tzinfo) - message.author.joined_at > timedelta(days=1):
+                if self.stored_roles['antiraid'] in message.author.roles:
+                    await self.remove_roles(self.stored_roles['antiraid'])
 
         if not message.content: # empty message or attachment
             return
@@ -380,6 +385,11 @@ class Client(discord.Client):
         for plugin in commands.iterable:
             if 'reactRemove' in dir(plugin):
                 await plugin.reactRemove(self, payload)
+        
+    async def on_member_join(self, member):
+        for plugin in commands.iterable:
+            if 'join' in dir(plugin):
+                await plugin.join(self, member)
 
     def embed_builder(self, kind, desc, title="Error"):
         if kind in self.colors:
