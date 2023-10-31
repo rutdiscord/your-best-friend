@@ -1,6 +1,12 @@
+# i want visual studio code to stop hurting my dev environment
+.vscode/
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
+
+# you probably want one of these
+.venv/
 
 # Files saved by YBF
 ybf/configs/*
